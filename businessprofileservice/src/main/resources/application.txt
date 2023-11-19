@@ -1,0 +1,47 @@
+# spring:
+#     datasource:
+#         url: jdbc:postgresql://127.0.0.1:26257/userlists?ApplicationName=businessprofile&sslmode=disable
+#         username: amanv
+#         password: 
+#         driver-class-name: org.postgresql.Driver
+#         type: ""
+#         hikari:
+#             maximum-pool-size: 20
+#     sql:
+#         init:
+#             mode: always
+    # sleuth:
+    #     otel:
+    #         config:
+    #             trace-id-ratio-based: 1.0
+    #         exporter:
+    #             otlp:
+    #                 endpoint: http://collector:4317
+#     jpa:
+#         properties:
+#             hibernate:
+#                 # dialect: org.hibernate.dialect.CockroachDB201Dialect
+#                 ddl-auto: create-drop
+#             generate-ddl: true
+
+server:
+  port: 1234
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:54321/userprofiles?sslmode=disable
+    username: amanv
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sleuth:
+    otel:
+      config:
+        trace-id-ratio-based: 1.0
+      exporter:
+        otlp:
+          endpoint: http://collector:4317
