@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  #   database:
+  #     image: 'postgres:latest'
+  #     ports:
+  #       - 54321:5432
+  #     env_file:
+  #       - .env
+  #     networks:
+  #       - postgres-network
+  #     volumes:
+  #       - ./db-data/:/var/lib/postgresql/data/
+  #       # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  # networks:
+  #   postgres-network:
+  #     driver: bridge
+  roach-single:
+    image: cockroachdb/cockroach:latest
+    hostname: roach-single
+    ports:
+      - "54321:26257"
+      - "8088:8080"
+    volumes:
+      - ./roach:/cockroach/cockroach-data
+    environment:
+      - COCKROACH_DATABASE=userprofiles
+      - COCKROACH_USER=amanv
+      # - COCKROACH_SCHEMA=user
+    #       - COCKROACH_PASSWORD=amanv
+    command: start-single-node --http-addr=localhost:8088 --insecure
+  redis:
+    image: redis:latest
+    command: redis-server
+    volumes:
+      - ./redis:/var/lib/redis
+      - ./redis-config:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    networks:
+      - redis-network
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=localhost:redis:6379
+      - HTTP_USER=root
+      - HTTP_PASSWORD=qwerty
+    ports:
+      - 8081:8081
+    networks:
+      - redis-network
+    depends_on:
+      - redis
+networks:
+  redis-network:
+    driver: bridge
