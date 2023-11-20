@@ -1,6 +1,7 @@
 package com.intuit.profileservice.transformer;
 
 import com.intuit.profileservice.dto.ProfileRequestDto;
+import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Address;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -88,11 +90,11 @@ public class UpdateProfileTransformer {
     // return einIdentifier;
     // }
 
-    public Profile convertDtoToModel(ProfileRequestDto dto) {
+    public Profile convertDtoToModel(UpdateProfileRequestDto dto) {
         logger.debug("Entering convertDtoToModel method");
 
         try {
-            Optional<Profile> optProfiles = profileService.getProfileByCompanyName(dto.getLegalName());
+            Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(dto.getCustomerId()),dto.getLegalName());
             if (optProfiles.isEmpty()) {
                 throw new ApplicationException("DC", "Duplicate legal name");
             }

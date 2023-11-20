@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.io.Serializable;
 
@@ -16,8 +17,11 @@ import java.io.Serializable;
 @RedisHash
 public class ErrorCodesCache implements Serializable {
     @Id
+    @Indexed
     private String errorcode;
     private String errormessage;
+    @Indexed
     private Boolean isfailure;
+    @Indexed
     private Boolean isretryeligible;
 }

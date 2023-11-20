@@ -43,6 +43,10 @@ public class ErrorCodesServiceImpl {
         return errorCodesRepository.findAll();
     }
 
+    public ErrorCodes findByErrorCode(String errorCode) {
+        return errorCodesRepository.findByErrorcode(errorCode);
+    }
+
     @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
     })

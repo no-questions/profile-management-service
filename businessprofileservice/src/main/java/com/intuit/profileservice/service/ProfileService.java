@@ -81,6 +81,10 @@ public class ProfileService {
         }
     }
 
+    public Optional<Profile> findByCustomeridAndLegalName(UUID id, String legalName) {
+        return profileRepository.findByIdAndLegalname(id,legalName);
+    }
+
     private void logMethodEntry(String methodName) {
         logger.debug("Entering {} method", methodName);
     }

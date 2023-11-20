@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
@@ -29,8 +31,7 @@ public class GetErrorMessagesCache implements GetErrorMessages {
 
     private final RestTemplate restTemplate;
 
-    @NonNull
-    private final GetErrorMessagesDB getMessageFromDB = new GetErrorMessagesDB();
+    private final FallbackService fallbackService;
 
     @Override
     @HystrixCommand(fallbackMethod = "fallbackForErrorMessage", commandProperties = {
@@ -45,18 +46,23 @@ public class GetErrorMessagesCache implements GetErrorMessages {
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             headers.add("Content-Type", "application/json");
             headers.add("message", errorCode);
-            ResponseEntity<ErrorCodeDto> response = restTemplate.getForEntity("http://localhost:1236/get/errorcodes", ErrorCodeDto.class, headers);
+            UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("http://localhost:1236/get/errordescription")
+        .queryParam("message", errorCode);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            // ResponseEntity<ErrorCodeDto> response = restTemplate.getForEntity("http://localhost:1236/get/errordescription", ErrorCodeDto.class, entity);
+            ResponseEntity<ErrorCodeDto> response = restTemplate.getForEntity(builder.toUriString(), ErrorCodeDto.class, entity);
             ErrorCodeDto res = response.getBody();
-            String errorMessage = (res != null) ? res.getErrormessage() : getMessageFromDB.fetchErrorMessage(errorCode);
+            String errorMessage = (res != null) ? res.getErrormessage() : fallbackForErrorMessage(errorCode);
             logMethodExit("fetchErrorMessage");
             return errorMessage;
         } catch (RestClientResponseException e) {
             logException("fetchErrorMessage", e);
-            if (e.getStatusCode().is4xxClientError()) {
-                throw new BadRequestException("BR", e.getMessage());
-            } else {
-                throw new ApplicationException("FE", e.getMessage());
-            }
+            // if (e.getStatusCode().is4xxClientError()) {
+            //     throw new BadRequestException("BR", e.getMessage());
+            // } else {
+            //     throw new ApplicationException("FE", e.getMessage());
+            // }
+            return fallbackForErrorMessage(errorCode);
         } catch (Exception e) {
             logException("fetchErrorMessage", e);
             throw new ApplicationException("FE", e.getMessage());
@@ -65,7 +71,7 @@ public class GetErrorMessagesCache implements GetErrorMessages {
 
     public String fallbackForErrorMessage(String errorCode) {
         logMethodEntry("fallbackForErrorMessage");
-        String errorMessage = getMessageFromDB.fetchErrorMessage(errorCode);
+        String errorMessage = fallbackService.fallbackForErrorMessage(errorCode);
         logMethodExit("fallbackForErrorMessage");
         return errorMessage;
     }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intuit.cacheservice.models.ErrorCodesCache;
@@ -21,7 +22,7 @@ public class FetchController {
     private final ErrorCodesCacheRepository errorCodesCacheRepository;
 
     @GetMapping("/get/errordescription")
-    public ResponseEntity<ErrorCodesCache> getErrorDescription(@RequestHeader("message") String message) {
+    public ResponseEntity<ErrorCodesCache> getErrorDescription(@RequestParam("message") String message) {
         logger.info("/get/errordescription getErrorDescription entry {}",message);
         return new ResponseEntity<>(errorCodesCacheRepository.findByErrorcode(message), HttpStatusCode.valueOf(200));
     }
