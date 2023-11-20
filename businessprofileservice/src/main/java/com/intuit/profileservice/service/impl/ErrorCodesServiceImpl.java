@@ -1,4 +1,4 @@
-package com.intuit.profileservice.service;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.dto.ProfileValidationsResp;
 import com.intuit.profileservice.exceptions.ApplicationException;

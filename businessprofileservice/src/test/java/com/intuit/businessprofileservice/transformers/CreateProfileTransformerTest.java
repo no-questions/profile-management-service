@@ -10,7 +10,6 @@ import com.intuit.profileservice.transformer.CreateProfileTransformer;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 

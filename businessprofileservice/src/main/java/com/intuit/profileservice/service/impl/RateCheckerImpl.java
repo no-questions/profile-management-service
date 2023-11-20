@@ -1,4 +1,4 @@
-package com.intuit.profileservice.service;
+package com.intuit.profileservice.service.impl;
 
 import java.util.Arrays;
 
@@ -12,11 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-
+import com.intuit.profileservice.service.RateChecker;
 import lombok.RequiredArgsConstructor;
 
 @Service

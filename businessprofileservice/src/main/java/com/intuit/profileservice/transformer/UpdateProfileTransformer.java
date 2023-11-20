@@ -9,6 +9,7 @@ import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
 import com.intuit.profileservice.service.ProfileService;
+import com.intuit.profileservice.service.impl.ProfileServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 

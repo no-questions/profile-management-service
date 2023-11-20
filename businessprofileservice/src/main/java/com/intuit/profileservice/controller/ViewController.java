@@ -12,14 +12,14 @@ import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.service.ProfileService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class ViewController {
     
     private final ProfileService profileService;
 
-    ViewController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
     @GetMapping("/view/all")
     public ResponseEntity<List<ProfileRequestDto>> viewAllProfiles() {
         List<Profile> profiles = profileService.getAllProfiles();

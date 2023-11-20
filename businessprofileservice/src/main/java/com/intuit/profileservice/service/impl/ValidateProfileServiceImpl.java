@@ -1,4 +1,4 @@
-package com.intuit.profileservice.service;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.dto.BaseResponse;
 import com.intuit.profileservice.dto.ProfileRequestDto;
@@ -6,6 +6,7 @@ import com.intuit.profileservice.dto.ProfileValidationsResp;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Profile;
+import com.intuit.profileservice.service.ValidateProfileService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
@@ -28,7 +29,7 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileService;
 
     private final RestTemplate restTemplate;
 

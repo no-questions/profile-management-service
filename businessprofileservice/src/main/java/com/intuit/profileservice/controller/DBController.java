@@ -3,7 +3,7 @@ package com.intuit.profileservice.controller;
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.dto.FetchErrorCodeDBResp;
 import com.intuit.profileservice.models.ErrorCodes;
-import com.intuit.profileservice.service.ErrorCodesServiceImpl;
+import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
