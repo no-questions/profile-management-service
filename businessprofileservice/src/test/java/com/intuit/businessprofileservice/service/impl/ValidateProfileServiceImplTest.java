@@ -43,52 +43,39 @@ class ValidateProfileServiceImplTest {
 
     @Test
     void testPreRequestValidations_ProfileExists() {
-        // Arrange
         ProfileRequestDto requestDto = new ProfileRequestDto();
         requestDto.setLegalName("ExistingCompany");
 
         when(profileService.getProfileByCompanyName("ExistingCompany")).thenReturn(Optional.of(new Profile()));
-
-        // Act
         BaseResponse result = validateProfileService.preRequestValidations(requestDto);
 
-        // Assert
         assertEquals("DC", result.getResCode());
         verify(profileService, times(1)).getProfileByCompanyName("ExistingCompany");
     }
 
     @Test
     void testPreRequestValidations_ProfileDoesNotExist() {
-        // Arrange
         ProfileRequestDto requestDto = new ProfileRequestDto();
         requestDto.setLegalName("NonExistingCompany");
 
         when(profileService.getProfileByCompanyName("NonExistingCompany")).thenReturn(Optional.empty());
-
-        // Act
         BaseResponse result = validateProfileService.preRequestValidations(requestDto);
-
-        // Assert
         assertEquals("00", result.getResCode());
         verify(profileService, times(1)).getProfileByCompanyName("NonExistingCompany");
     }
 
     @Test
     void testPreRequestValidations_Exception() {
-        // Arrange
         ProfileRequestDto requestDto = new ProfileRequestDto();
         requestDto.setLegalName("ExceptionCompany");
 
         when(profileService.getProfileByCompanyName("ExceptionCompany")).thenThrow(new RuntimeException("Test Exception"));
-
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> validateProfileService.preRequestValidations(requestDto));
         verify(profileService, times(1)).getProfileByCompanyName("ExceptionCompany");
     }
 
     @Test
     void testValidateProfile_Success() {
-        // Arrange
         ProfileRequestDto requestDto = new ProfileRequestDto();
         requestDto.setLegalName("ValidateCompany");
 
@@ -114,7 +101,6 @@ class ValidateProfileServiceImplTest {
 
     @Test
     void testValidateProfile_BadRequestException() {
-        // Arrange
         ProfileRequestDto requestDto = new ProfileRequestDto();
         requestDto.setLegalName("BadRequestCompany");
 
@@ -125,8 +111,6 @@ class ValidateProfileServiceImplTest {
 
         when(restTemplate.exchange(anyString(), eq(HttpMethod.POST), eq(request), eq(ProfileValidationsResp.class)))
                 .thenThrow(new RestClientResponseException("Bad Request", 400, "Bad Request", null, null, null));
-
-        // Act & Assert
         assertThrows(BadRequestException.class, () -> validateProfileService.validateProfile(requestDto));
         verify(restTemplate, times(1)).exchange(anyString(), eq(HttpMethod.POST), eq(request), eq(ProfileValidationsResp.class));
     }

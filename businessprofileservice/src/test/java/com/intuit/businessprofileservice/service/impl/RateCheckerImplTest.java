@@ -31,7 +31,6 @@ class RateCheckerImplTest {
 
     @Test
     void testGetUpdateRate_Success() {
-        // Arrange
         String customerId = "123";
         String action = "increment";
         boolean increment = true;
@@ -42,18 +41,14 @@ class RateCheckerImplTest {
 
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(true, HttpStatus.OK));
-
-        // Act
         Boolean result = rateChecker.getUpdateRate(customerId, action, increment);
 
-        // Assert
         assertTrue(result);
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
     }
 
     @Test
     void testGetUpdateRate_Failure() {
-        // Arrange
         String customerId = "456";
         String action = "decrement";
         boolean increment = false;
@@ -65,17 +60,14 @@ class RateCheckerImplTest {
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR));
 
-        // Act
         Boolean result = rateChecker.getUpdateRate(customerId, action, increment);
 
-        // Assert
         assertFalse(result);
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
     }
 
     @Test
     void testGetUpdateRate_Exception() {
-        // Arrange
         String customerId = "789";
         String action = "reset";
         boolean increment = true;
@@ -87,7 +79,6 @@ class RateCheckerImplTest {
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenThrow(new RuntimeException("Test Exception"));
 
-        // Act & Assert
         assertThrows(RuntimeException.class, () -> rateChecker.getUpdateRate(customerId, action, increment));
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
     }

@@ -5,6 +5,7 @@ import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.ErrorCodes;
 import com.intuit.profileservice.repository.ErrorCodesRepository;
+import com.intuit.profileservice.service.ErrorCodesService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
@@ -30,7 +31,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class ErrorCodesServiceImpl {
+public class ErrorCodesServiceImpl implements ErrorCodesService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ErrorCodesRepository errorCodesRepository;
@@ -39,17 +40,20 @@ public class ErrorCodesServiceImpl {
     @NonNull
     private final Set<String> notFailure = new HashSet<>(Set.of("00", "DNE"));
 
+    @Override
     public List<ErrorCodes> getAll() {
         return errorCodesRepository.findAll();
     }
 
+    @Override
     public ErrorCodes findByErrorCode(String errorCode) {
         return errorCodesRepository.findByErrorcode(errorCode);
     }
 
-    @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    })
+    @Override
+    // @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
+    //         @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    // })
     @Retryable(value = { ApplicationException.class })
     public Boolean checkForFailure(ProfileValidationsResp resp) {
         logMethodEntry("checkForFailure");
@@ -79,7 +83,8 @@ public class ErrorCodesServiceImpl {
         }
     }
 
-    Boolean fallbackForFailureIdentification(ProfileValidationsResp resp) {
+    @Override
+    public Boolean fallbackForFailureIdentification(ProfileValidationsResp resp) {
         logMethodEntry("fallbackForFailureIdentification");
 
         Boolean check = false;

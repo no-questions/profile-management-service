@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "errorcodes")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ErrorCodes implements Serializable {
     @Id
     @Column(nullable = false)
