@@ -57,3 +57,8 @@ build/
 ### VS Code ###
 .vscode/
 businessprofileservice/.DS_Store
+
+##DB AND cache DATA##
+redis/
+roach/
+redis-config/

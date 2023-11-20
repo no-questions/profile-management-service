@@ -1,8 +1,9 @@
-package com.intuit.profileservice.service;
+package com.intuit.profileservice.service.impl;
 
 import org.springframework.stereotype.Component;
 
 import com.intuit.profileservice.models.ErrorCodes;
+import com.intuit.profileservice.service.FallbackService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +16,7 @@ public class FallbackServiceImpl implements FallbackService {
     @Override
     public String fallbackForErrorMessage(String errorCode) {
         ErrorCodes errCode = errorCodesServiceImpl.findByErrorCode(errorCode);
-        return errorCode!=null?errCode.getErrormessage():"";
+        return errCode!=null?errCode.getErrormessage():"";
     }
     
 }

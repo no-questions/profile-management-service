@@ -11,7 +11,10 @@ import com.intuit.profileservice.repository.listener.ProfileListener;
 
 @Entity
 @EntityListeners(ProfileListener.class)
-@Table(name = "businessprofile")
+@Table(name = "businessprofile", indexes = {
+    @Index(columnList = "legalname"),
+    @Index(columnList = "id")
+})
 @Data
 public class Profile implements Serializable {
 

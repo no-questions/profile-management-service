@@ -3,7 +3,7 @@ package com.intuit.profileservice.controller;
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.dto.FetchErrorCodeDBResp;
 import com.intuit.profileservice.models.ErrorCodes;
-import com.intuit.profileservice.service.ErrorCodesServiceImpl;
+import com.intuit.profileservice.service.ErrorCodesService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class DBController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final ErrorCodesServiceImpl errorCodesService;
+    private final ErrorCodesService errorCodesService;
 
     public static List<ErrorCodeDto> convertList(List<ErrorCodes> sourceList) {
         return sourceList.stream()

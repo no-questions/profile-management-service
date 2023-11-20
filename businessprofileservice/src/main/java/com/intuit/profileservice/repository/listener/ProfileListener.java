@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.intuit.profileservice.models.Profile;
-import com.intuit.profileservice.service.AuditLogService;
 import com.intuit.profileservice.util.EncryptDecryptUtil;
 
 import jakarta.persistence.PostLoad;

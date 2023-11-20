@@ -1,4 +1,4 @@
-package com.intuit.profileservice.service;
+package com.intuit.profileservice.service.impl;
 
 import java.util.Arrays;
 
@@ -16,11 +16,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
-import com.intuit.profileservice.exceptions.BadRequestException;
+import com.intuit.profileservice.service.FallbackService;
+import com.intuit.profileservice.service.GetErrorMessages;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -57,11 +57,6 @@ public class GetErrorMessagesCache implements GetErrorMessages {
             return errorMessage;
         } catch (RestClientResponseException e) {
             logException("fetchErrorMessage", e);
-            // if (e.getStatusCode().is4xxClientError()) {
-            //     throw new BadRequestException("BR", e.getMessage());
-            // } else {
-            //     throw new ApplicationException("FE", e.getMessage());
-            // }
             return fallbackForErrorMessage(errorCode);
         } catch (Exception e) {
             logException("fetchErrorMessage", e);

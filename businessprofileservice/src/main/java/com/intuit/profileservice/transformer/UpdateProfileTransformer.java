@@ -9,6 +9,7 @@ import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
 import com.intuit.profileservice.service.ProfileService;
+import com.intuit.profileservice.service.impl.ProfileServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -96,7 +97,7 @@ public class UpdateProfileTransformer {
         try {
             Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(dto.getCustomerId()),dto.getLegalName());
             if (optProfiles.isEmpty()) {
-                throw new ApplicationException("DC", "Duplicate legal name");
+                throw new ApplicationException("LCC", "Legal Name Cannot be changed");
             }
 
             Profile profile = optProfiles.get();

@@ -48,9 +48,9 @@ public class ErrorCodesCacheService {
     }
 
     @PostConstruct
-    @HystrixCommand(fallbackMethod = "fallbackForErrorMessage", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    })
+    // @HystrixCommand(fallbackMethod = "fallbackForErrorMessage", commandProperties = {
+    //         @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    // })
     @Retryable(value = { ApplicationException.class })
     void refreshCache() {
         logger.info("Entering refreshCache method");
