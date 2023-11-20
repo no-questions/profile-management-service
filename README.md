@@ -1,5 +1,7 @@
 # profile-management-service
 
+Services to validate creation and updation of user profiles
+
 before starting the application run up.sh to start cache and db servers
 required configuration to connect to them is already hardcoded
 
