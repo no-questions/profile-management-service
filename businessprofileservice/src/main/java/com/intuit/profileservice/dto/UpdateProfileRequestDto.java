@@ -1,91 +1,92 @@
 package com.intuit.profileservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class UpdateProfileRequestDto {
+public class UpdateProfileRequestDto extends ProfileRequestDto{
 
-    @NotBlank(message = "Company name cannot be blank")
-    @JsonProperty("companyName")
-    private String companyName;
+    @JsonProperty("customerId")
+    @NotBlank
+    private String customerId;
 
-    @NotBlank(message = "Legal name cannot be blank")
-    @JsonProperty("legalName")
-    private String legalName;
+    // @NotBlank(message = "Company name cannot be blank")
+    // @JsonProperty("companyName")
+    // private String companyName;
 
-    @Valid
-    @JsonProperty("businessAddress")
-    private AddressDTO businessAddress;
+    // @NotBlank(message = "Legal name cannot be blank")
+    // @JsonProperty("legalName")
+    // private String legalName;
 
-    @Valid
-    @JsonProperty("legalAddress")
-    private AddressDTO legalAddress;
+    // @Valid
+    // @JsonProperty("businessAddress")
+    // private AddressDTO businessAddress;
 
-    @Valid
-    @JsonProperty("taxIdentifiers")
-    private TaxIdentifiersDTO taxIdentifiers;
+    // @Valid
+    // @JsonProperty("legalAddress")
+    // private AddressDTO legalAddress;
 
-    @Email(message = "Please enter a valid email address")
-    @NotBlank(message = "Email cannot be blank")
-    @JsonProperty("email")
-    private String email;
+    // @Valid
+    // @JsonProperty("taxIdentifiers")
+    // private TaxIdentifiersDTO taxIdentifiers;
 
-    @Pattern(regexp = "^(http|https)://.*$", message = "Please enter a valid website URL")
-    @NotBlank(message = "Website cannot be blank")
-    @JsonProperty("website")
-    private String website;
+    // @Email(message = "Please enter a valid email address")
+    // @NotBlank(message = "Email cannot be blank")
+    // @JsonProperty("email")
+    // private String email;
 
-    // Constructors, getters, and setters go here
+    // @Pattern(regexp = "^(http|https)://.*$", message = "Please enter a valid website URL")
+    // @NotBlank(message = "Website cannot be blank")
+    // @JsonProperty("website")
+    // private String website;
 
-    // Inner class for AddressDTO
-    @Data
-    public static class AddressDTO {
+    // // Constructors, getters, and setters go here
 
-        @NotBlank(message = "Address line 1 cannot be blank")
-        @JsonProperty("line1")
-        private String line1;
+    // // Inner class for AddressDTO
+    // @Data
+    // public static class AddressDTO {
 
-        @JsonProperty("line2")
-        private String line2;
+    //     @NotBlank(message = "Address line 1 cannot be blank")
+    //     @JsonProperty("line1")
+    //     private String line1;
 
-        @NotBlank(message = "City cannot be blank")
-        @JsonProperty("city")
-        private String city;
+    //     @JsonProperty("line2")
+    //     private String line2;
 
-        @NotBlank(message = "State cannot be blank")
-        @JsonProperty("state")
-        private String state;
+    //     @NotBlank(message = "City cannot be blank")
+    //     @JsonProperty("city")
+    //     private String city;
 
-        @NotBlank(message = "ZIP code cannot be blank")
-        @Pattern(regexp = "^\\d{5}(?:[-\\s]\\d{4})?$", message = "Please enter a valid ZIP code")
-        @JsonProperty("zip")
-        private String zip;
+    //     @NotBlank(message = "State cannot be blank")
+    //     @JsonProperty("state")
+    //     private String state;
 
-        @NotBlank(message = "Country cannot be blank")
-        @JsonProperty("country")
-        private String country;
+    //     @NotBlank(message = "ZIP code cannot be blank")
+    //     @Pattern(regexp = "^\\d{5}(?:[-\\s]\\d{4})?$", message = "Please enter a valid ZIP code")
+    //     @JsonProperty("zip")
+    //     private String zip;
 
-        // Constructors, getters, and setters go here
-    }
+    //     @NotBlank(message = "Country cannot be blank")
+    //     @JsonProperty("country")
+    //     private String country;
 
-    // Inner class for TaxIdentifiersDTO
-    @Data
-    public static class TaxIdentifiersDTO {
-        @NotBlank(message = "PAN cannot be blank")
-        @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "Please enter a valid PAN")
-        @JsonProperty("pan")
-        private String pan;
+    //     // Constructors, getters, and setters go here
+    // }
 
-        @NotBlank(message = "EIN cannot be blank")
-        @Pattern(regexp = "^\\d{2}-\\d{7}-\\d{1}$", message = "Please enter a valid EIN")
-        @JsonProperty("ein")
-        private String ein;
+    // // Inner class for TaxIdentifiersDTO
+    // @Data
+    // public static class TaxIdentifiersDTO {
+    //     @NotBlank(message = "PAN cannot be blank")
+    //     @Pattern(regexp = "[A-Z]{5}[0-9]{4}[A-Z]{1}", message = "Please enter a valid PAN")
+    //     @JsonProperty("pan")
+    //     private String pan;
 
-        // Constructors, getters, and setters go here
-    }
+    //     @NotBlank(message = "EIN cannot be blank")
+    //     @Pattern(regexp = "^\\d{2}-\\d{7}-\\d{1}$", message = "Please enter a valid EIN")
+    //     @JsonProperty("ein")
+    //     private String ein;
+
+    //     // Constructors, getters, and setters go here
+    // }
 }

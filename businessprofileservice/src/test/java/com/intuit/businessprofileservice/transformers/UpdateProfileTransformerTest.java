@@ -10,7 +10,8 @@ import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
-import com.intuit.profileservice.dto.UpdateProfileRequestDto;
+import com.intuit.profileservice.dto.ProfileRequestDto;
+import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
@@ -25,7 +26,7 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_ValidDto_ShouldConvertSuccessfully() throws NotFoundException {
         // Arrange
-        UpdateProfileRequestDto dto = createValidUpdateProfileRequestDto();
+        ProfileRequestDto dto = createValidUpdateProfileRequestDto();
 
         // Act
         Profile profile = updateProfileTransformer.convertDtoToModel(dto);
@@ -46,7 +47,7 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_MissingCompanyName_ShouldThrowNotFoundException() {
         // Arrange
-        UpdateProfileRequestDto dto = new UpdateProfileRequestDto();
+        ProfileRequestDto dto = new ProfileRequestDto();
 
         // Act & Assert
         Assertions.assertThrows(NotFoundException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
@@ -55,7 +56,7 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_InvalidBusinessAddress_ShouldThrowIllegalArgumentException() {
         // Arrange
-        UpdateProfileRequestDto dto = createValidUpdateProfileRequestDto();
+        ProfileRequestDto dto = createValidUpdateProfileRequestDto();
         dto.getBusinessAddress().setLine1(null);
 
         // Act & Assert
@@ -65,7 +66,7 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_InvalidLegalAddress_ShouldThrowIllegalArgumentException() {
         // Arrange
-        UpdateProfileRequestDto dto = createValidUpdateProfileRequestDto();
+        ProfileRequestDto dto = createValidUpdateProfileRequestDto();
         dto.getLegalAddress().setCountry(null);
 
         // Act & Assert
@@ -75,7 +76,7 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_InvalidTaxIdentifierPAN_ShouldThrowIllegalArgumentException() {
         // Arrange
-        UpdateProfileRequestDto dto = createValidUpdateProfileRequestDto();
+        ProfileRequestDto dto = createValidUpdateProfileRequestDto();
         dto.getTaxIdentifiers().setPan("invalid-pan");
 
         // Act & Assert
@@ -85,21 +86,21 @@ class UpdateProfileTransformerTest {
     @Test
     void convertDtoToModel_InvalidTaxIdentifierEIN_ShouldThrowIllegalArgumentException() {
         // Arrange
-        UpdateProfileRequestDto dto = createValidUpdateProfileRequestDto();
+        ProfileRequestDto dto = createValidUpdateProfileRequestDto();
         dto.getTaxIdentifiers().setEin("invalid-ein");
 
         // Act & Assert
         Assertions.assertThrows(IllegalArgumentException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
     }
 
-    private UpdateProfileRequestDto createValidUpdateProfileRequestDto() {
-        UpdateProfileRequestDto dto = new UpdateProfileRequestDto();
+    private ProfileRequestDto createValidUpdateProfileRequestDto() {
+        ProfileRequestDto dto = new ProfileRequestDto();
         dto.setCompanyName("Acme Corporation");
         dto.setLegalName("Acme Corporation Inc.");
         dto.setEmail("info@acmecorp.com");
         dto.setWebsite("www.acmecorp.com");
 
-        UpdateProfileRequestDto.AddressDTO businessAddress = new UpdateProfileRequestDto.AddressDTO();
+        ProfileRequestDto.AddressDTO businessAddress = new ProfileRequestDto.AddressDTO();
         businessAddress.setLine1("123 Main Street");
         businessAddress.setLine2("Suite 456");
         businessAddress.setCity("Anytown");
@@ -108,7 +109,7 @@ class UpdateProfileTransformerTest {
         businessAddress.setCountry("US");
         dto.setBusinessAddress(businessAddress);
 
-        UpdateProfileRequestDto.AddressDTO legalAddress = new UpdateProfileRequestDto.AddressDTO();
+        ProfileRequestDto.AddressDTO legalAddress = new ProfileRequestDto.AddressDTO();
         legalAddress.setLine1("456 Elm Street");
         legalAddress.setLine2("Suite 789");
         legalAddress.setCity("Anytown");
@@ -117,7 +118,7 @@ class UpdateProfileTransformerTest {
         legalAddress.setCountry("US");
         dto.setLegalAddress(legalAddress);
 
-        UpdateProfileRequestDto.TaxIdentifiersDTO taxIdentifiers = new UpdateProfileRequestDto.TaxIdentifiersDTO();
+        ProfileRequestDto.TaxIdentifiersDTO taxIdentifiers = new ProfileRequestDto.TaxIdentifiersDTO();
         taxIdentifiers.setPan("123456789");
         taxIdentifiers.setEin("987654321");
         dto.setTaxIdentifiers(taxIdentifiers);
@@ -125,7 +126,7 @@ class UpdateProfileTransformerTest {
         return dto;
     }
 
-    private void assertAddressEquals(UpdateProfileRequestDto.AddressDTO expectedAddress, Address actualAddress) {
+    private void assertAddressEquals(ProfileRequestDto.AddressDTO expectedAddress, Address actualAddress) {
         assertEquals(expectedAddress.getLine1(), actualAddress.getLine1());
         assertEquals(expectedAddress.getLine2(), actualAddress.getLine2());
         assertEquals(expectedAddress.getCity(), actualAddress.getCity());

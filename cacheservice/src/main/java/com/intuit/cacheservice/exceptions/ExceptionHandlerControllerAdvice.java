@@ -1,5 +1,6 @@
 package com.intuit.cacheservice.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,11 +10,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.intuit.cacheservice.dto.BaseResponse;
 import com.intuit.cacheservice.repository.ErrorCodesCacheRepository;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 
 @ControllerAdvice
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHandler {
     private final ErrorCodesCacheRepository errorCodesCacheRepository;
 
@@ -22,8 +23,8 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
         return ResponseEntity.ok(new BaseResponse(ex.getErrorCode(),errorCodesCacheRepository.findByErrorcode(ex.getErrorCode()).getErrormessage()));
     }
 
-    @ExceptionHandler(ApplicationException.class)
+    @ExceptionHandler(BadRequestException.class)
     public final ResponseEntity<BaseResponse> handleBadRequestException (BadRequestException ex, WebRequest request) {
-        return ResponseEntity.ok(new BaseResponse(ex.getErrorCode(),errorCodesCacheRepository.findByErrorcode(ex.getErrorCode()).getErrormessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponse(ex.getErrorCode(),errorCodesCacheRepository.findByErrorcode(ex.getErrorCode()).getErrormessage()));
     }
 }
