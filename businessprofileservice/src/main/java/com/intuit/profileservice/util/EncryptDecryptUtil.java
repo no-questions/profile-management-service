@@ -10,6 +10,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class EncryptDecryptUtil {
     }
 
     public String encrypt(String data) {
+        if(StringUtils.isBlank(data))
+            return "";
         try {
             Cipher cipher = Cipher.getInstance(Constants.CIPHER);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -39,6 +42,8 @@ public class EncryptDecryptUtil {
     }
 
     public String decrypt(String encryptedData) {
+        if(StringUtils.isBlank(encryptedData))
+            return "";
         try{
             Cipher cipher = Cipher.getInstance(Constants.CIPHER);
             cipher.init(Cipher.DECRYPT_MODE, secretKey);

@@ -3,7 +3,9 @@ package com.intuit.profileservice.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,20 +22,22 @@ public class ViewController {
     
     private final ProfileService profileService;
 
+    @CrossOrigin
     @GetMapping("/view/all")
-    public ResponseEntity<List<ProfileRequestDto>> viewAllProfiles() {
+    public ResponseEntity<List<UpdateProfileRequestDto>> viewAllProfiles() {
         List<Profile> profiles = profileService.getAllProfiles();
-        List<ProfileRequestDto> dtoRes = new ArrayList<>();
+        List<UpdateProfileRequestDto> dtoRes = new ArrayList<>();
         profiles.forEach(profile->dtoRes.add(convertModelToDto(profile)));
         return ResponseEntity.ok(dtoRes);
     }
 
-    public ProfileRequestDto convertModelToDto(Profile profile) {
+    public UpdateProfileRequestDto convertModelToDto(Profile profile) {
         if (profile == null) {
             throw new IllegalArgumentException("Profile cannot be null");
         }
 
-        ProfileRequestDto dto = new ProfileRequestDto();
+        UpdateProfileRequestDto dto = new UpdateProfileRequestDto();
+        dto.setCustomerId(profile.getId().toString());
         dto.setCompanyName(profile.getCompanyname());
         dto.setLegalName(profile.getLegalname());
         dto.setEmail(profile.getEmail());
