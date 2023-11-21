@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,7 @@ public class CreateController {
 
     private final ErrorCodesServiceImpl errorCodesServiceImpl;
 
+    @CrossOrigin
     @PostMapping("/create/profile")
     public ResponseEntity<CreateProfileResponseDto> createProfile(@Valid @RequestBody ProfileRequestDto requestDto) {
         logger.info("/create/profile inside createProfile entry {}", requestDto);
