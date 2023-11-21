@@ -1,10 +1,9 @@
-package com.intuit.profileservice.config;
+package com.intuit.cacheservice.config;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;
@@ -16,11 +15,8 @@ import java.time.Duration;
 @EnableRetry
 public class HttpConfiguration {
 
-    @NonNull
     @Value("${intuit.connection.timeout}")
     private Long connectionTimeout;
-
-    @NonNull
     @Value("${intuit.read.timeout}")
     private Long readTimeout;
 

@@ -3,6 +3,7 @@ package com.intuit.profileservice.service.impl;
 import com.intuit.profileservice.dto.BaseResponse;
 import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.ProfileValidationsResp;
+import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Profile;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,20 +36,16 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
     private final RestTemplate restTemplate;
 
     @Override
-    public BaseResponse preRequestValidations(ProfileRequestDto request) {
+    public boolean preRequestCreationValidations(ProfileRequestDto request) {
         logger.debug("Entering preRequestValidations method");
-
+        boolean check = true;
         try {
             Optional<Profile> profiles = profileService.getProfileByCompanyName(request.getLegalName());
             BaseResponse response = new BaseResponse();
-            if (profiles.isPresent()) {
-                response.setResCode("DC");
-            } else {
-                response.setResCode("00");
-            }
-
+            if (profiles.isPresent())
+                check = false;
             logger.debug("preRequestValidations method executed successfully");
-            return response;
+            return check;
         } catch (Exception e) {
             logger.error("preRequestValidations: Error occurred during execution: {}", e.getMessage());
             throw e; // Rethrow the exception after logging
@@ -90,4 +88,5 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
             logger.debug("Exiting validateProfile method");
         }
     }
+
 }

@@ -47,7 +47,7 @@ class ValidateProfileServiceImplTest {
         requestDto.setLegalName("ExistingCompany");
 
         when(profileService.getProfileByCompanyName("ExistingCompany")).thenReturn(Optional.of(new Profile()));
-        BaseResponse result = validateProfileService.preRequestValidations(requestDto);
+        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
 
         assertEquals("DC", result.getResCode());
         verify(profileService, times(1)).getProfileByCompanyName("ExistingCompany");
@@ -59,7 +59,7 @@ class ValidateProfileServiceImplTest {
         requestDto.setLegalName("NonExistingCompany");
 
         when(profileService.getProfileByCompanyName("NonExistingCompany")).thenReturn(Optional.empty());
-        BaseResponse result = validateProfileService.preRequestValidations(requestDto);
+        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
         assertEquals("00", result.getResCode());
         verify(profileService, times(1)).getProfileByCompanyName("NonExistingCompany");
     }
@@ -70,7 +70,7 @@ class ValidateProfileServiceImplTest {
         requestDto.setLegalName("ExceptionCompany");
 
         when(profileService.getProfileByCompanyName("ExceptionCompany")).thenThrow(new RuntimeException("Test Exception"));
-        assertThrows(RuntimeException.class, () -> validateProfileService.preRequestValidations(requestDto));
+        assertThrows(RuntimeException.class, () -> validateProfileService.preRequestCreationValidations(requestDto));
         verify(profileService, times(1)).getProfileByCompanyName("ExceptionCompany");
     }
 

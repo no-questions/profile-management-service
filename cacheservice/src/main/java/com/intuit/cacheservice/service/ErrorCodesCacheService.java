@@ -6,14 +6,14 @@ import com.intuit.cacheservice.exceptions.ApplicationException;
 import com.intuit.cacheservice.exceptions.BadRequestException;
 import com.intuit.cacheservice.models.ErrorCodesCache;
 import com.intuit.cacheservice.repository.ErrorCodesCacheRepository;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 import jakarta.annotation.PostConstruct;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ErrorCodesCacheService {
 
+    @Value("${intuit.profileservice.getallerrorcodes}")
+    private String getAllErrorCodesURI;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ErrorCodesCacheRepository errorCodesCacheRepository;
 
@@ -58,7 +60,7 @@ public class ErrorCodesCacheService {
         try {
             errorCodesCacheRepository.deleteAll();
             ResponseEntity<FetchErrorCodeDBResp> response = restTemplate
-                    .getForEntity("http://localhost:1234/get/errorcodes", FetchErrorCodeDBResp.class);
+                    .getForEntity(getAllErrorCodesURI, FetchErrorCodeDBResp.class);
             FetchErrorCodeDBResp res = response.getBody();
             errorCodesCacheRepository.saveAll(convertList(res.getErrorCodes()));
             logger.info("Cache refreshed successfully");
