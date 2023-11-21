@@ -1,5 +1,6 @@
 package com.intuit.profileservice.service.impl;
 
+import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.dto.ProfileValidationsResp;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +101,19 @@ public class ErrorCodesServiceImpl implements ErrorCodesService {
         return check;
     }
 
+    @Override
+    public List<ErrorCodeDto> convertList(List<ErrorCodes> sourceList) {
+        return sourceList.stream()
+                .map(sourceObject -> {
+                    ErrorCodeDto targetObject = new ErrorCodeDto();
+                    targetObject.setErrorcode(sourceObject.getErrorcode());
+                    targetObject.setErrormessage(sourceObject.getErrormessage());
+                    targetObject.setIsfailure(sourceObject.getIsfailure());
+                    targetObject.setIsretryeligible(sourceObject.getIsretryeligible());
+                    return targetObject;
+                })
+                .collect(Collectors.toList());
+    }
     private void logMethodEntry(String methodName) {
         logger.debug("Entering {} method", methodName);
     }

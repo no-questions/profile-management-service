@@ -24,24 +24,12 @@ public class DBController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ErrorCodesService errorCodesService;
 
-    public static List<ErrorCodeDto> convertList(List<ErrorCodes> sourceList) {
-        return sourceList.stream()
-                .map(sourceObject -> {
-                    ErrorCodeDto targetObject = new ErrorCodeDto();
-                    targetObject.setErrorcode(sourceObject.getErrorcode());
-                    targetObject.setErrormessage(sourceObject.getErrormessage());
-                    targetObject.setIsfailure(sourceObject.getIsfailure());
-                    targetObject.setIsretryeligible(sourceObject.getIsretryeligible());
-                    return targetObject;
-                })
-                .collect(Collectors.toList());
-    }
 
     @GetMapping("/get/errorcodes")
     public ResponseEntity<FetchErrorCodeDBResp> getErrorCodes() {
         logger.info("/get/errorcodes inside getErrorCodes entry");
         FetchErrorCodeDBResp resp = new FetchErrorCodeDBResp();
-        resp.setErrorCodes(convertList(errorCodesService.getAll()));
+        resp.setErrorCodes(errorCodesService.convertList(errorCodesService.getAll()));
         logger.info("/get/errorcodes getErrorCodes exit {}",resp);
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
