@@ -1,10 +1,5 @@
 package com.intuit.profileservice.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intuit.profileservice.models.AuditLog;
@@ -12,8 +7,11 @@ import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.repository.AuditLogRepository;
 import com.intuit.profileservice.service.AuditLogService;
 import com.intuit.profileservice.util.EncryptDecryptUtil;
-
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

@@ -1,5 +1,8 @@
 package com.intuit.businessprofileservice.service.impl;
 
+import com.intuit.profileservice.models.ErrorCodes;
+import com.intuit.profileservice.repository.ErrorCodesRepository;
+import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -7,14 +10,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.profileservice.models.ErrorCodes;
-import com.intuit.profileservice.repository.ErrorCodesRepository;
-import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
+import java.util.List;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 class ErrorCodesServiceImplTest {
 
@@ -35,8 +34,8 @@ class ErrorCodesServiceImplTest {
     @Test
     void testGetAll() {
         List<ErrorCodes> expectedErrorCodes = List.of(
-                new ErrorCodes("E001", "Description1",false,false),
-                new ErrorCodes("E002", "Description2",true,true)
+                new ErrorCodes("E001", "Description1", false, false),
+                new ErrorCodes("E002", "Description2", true, true)
         );
 
         when(errorCodesRepository.findAll()).thenReturn(expectedErrorCodes);
@@ -47,7 +46,7 @@ class ErrorCodesServiceImplTest {
     @Test
     void testFindByErrorCode() {
         String errorCode = "E001";
-        ErrorCodes expectedErrorCodes = new ErrorCodes(errorCode, "Description1",false,true);
+        ErrorCodes expectedErrorCodes = new ErrorCodes(errorCode, "Description1", false, true);
 
         when(errorCodesRepository.findByErrorcode(errorCode)).thenReturn(expectedErrorCodes);
         ErrorCodes actualErrorCodes = errorCodesService.findByErrorCode(errorCode);

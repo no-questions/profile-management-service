@@ -1,11 +1,10 @@
 package com.intuit.profileservice.models;
 
+import com.intuit.profileservice.repository.listener.AddressListener;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
-import com.intuit.profileservice.repository.listener.AddressListener;
 
 @Entity
 @EntityListeners(AddressListener.class)
@@ -28,7 +27,7 @@ public class Address implements Serializable {
     private String zip;
     @Column(nullable = false)
     private String country;
-    
+
     public Long getId() {
         return id;
     }

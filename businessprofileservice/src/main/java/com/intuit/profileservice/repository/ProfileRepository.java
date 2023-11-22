@@ -12,5 +12,6 @@ import java.util.UUID;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, UUID> {
     Optional<Profile> findByLegalname(String legalName);
+
     Optional<Profile> findByIdAndLegalname(UUID id, String legalName);
 }

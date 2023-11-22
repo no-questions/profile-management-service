@@ -1,9 +1,7 @@
 package com.intuit.profileservice.controller;
 
-import com.intuit.profileservice.dto.BaseResponse;
-import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.CreateProfileResponseDto;
-import com.intuit.profileservice.exceptions.ApplicationException;
+import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.service.HandlingService;
 import com.intuit.profileservice.service.ProfileService;
@@ -12,7 +10,6 @@ import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
 import com.intuit.profileservice.transformer.CreateProfileTransformer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

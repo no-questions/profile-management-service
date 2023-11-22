@@ -1,11 +1,11 @@
 package com.intuit.profileservice.service;
 
+import com.intuit.profileservice.dto.UpdateProfileRequestDto;
+import com.intuit.profileservice.models.Profile;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.intuit.profileservice.dto.UpdateProfileRequestDto;
-import com.intuit.profileservice.models.Profile;
 
 public interface ProfileService {
 

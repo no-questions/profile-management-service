@@ -4,9 +4,7 @@ import com.intuit.validationservice.Service.InvokeProductCalls;
 import com.intuit.validationservice.dto.BaseResponse;
 import com.intuit.validationservice.dto.CreateValidateDto;
 import com.intuit.validationservice.dto.ValidateProfileResponse;
-
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +29,7 @@ public class CreateProfileValidationController {
 
     @PostMapping("/validate/profile")
     public ResponseEntity<?> validateProfileCreation(@RequestBody CreateValidateDto request) {
-        logger.info("/validate/profile validateProfileCreation entry {}",request);
+        logger.info("/validate/profile validateProfileCreation entry {}", request);
         CompletableFuture<BaseResponse> productA = CompletableFuture.supplyAsync(() -> invokeProductCalls.invokeProductA(request));
         CompletableFuture<BaseResponse> productB = CompletableFuture.supplyAsync(() -> invokeProductCalls.invokeProductB(request));
         CompletableFuture<BaseResponse> productC = CompletableFuture.supplyAsync(() -> invokeProductCalls.invokeProductC(request));

@@ -1,10 +1,10 @@
 package com.intuit.profileservice.service;
 
-import java.util.List;
-
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.dto.ProfileValidationsResp;
 import com.intuit.profileservice.models.ErrorCodes;
+
+import java.util.List;
 
 public interface ErrorCodesService {
 

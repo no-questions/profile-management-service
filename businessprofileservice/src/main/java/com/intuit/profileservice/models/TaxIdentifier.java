@@ -1,11 +1,10 @@
 package com.intuit.profileservice.models;
 
+import com.intuit.profileservice.repository.listener.TaxIdentifierListener;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-
-import com.intuit.profileservice.repository.listener.TaxIdentifierListener;
 
 @Entity
 @Table(name = "taxidentifiers")

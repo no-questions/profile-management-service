@@ -2,25 +2,17 @@ package com.intuit.profileservice.transformer;
 
 import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.UpdateProfileRequestDto;
-import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
-import com.intuit.profileservice.repository.ProfileRepository;
-import com.intuit.profileservice.service.ProfileService;
-import com.intuit.profileservice.service.impl.ProfileServiceImpl;
-
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -92,7 +84,7 @@ public class UpdateProfileTransformer {
     // return einIdentifier;
     // }
 
-    public Profile convertDtoToModel(UpdateProfileRequestDto dto,Profile profile) {
+    public Profile convertDtoToModel(UpdateProfileRequestDto dto, Profile profile) {
         logger.debug("Entering convertDtoToModel method");
 
         try {

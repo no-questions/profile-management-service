@@ -1,17 +1,19 @@
 package com.intuit.businessprofileservice.service.impl;
 
+import com.intuit.profileservice.models.Profile;
+import com.intuit.profileservice.repository.ProfileRepository;
+import com.intuit.profileservice.service.AuditLogService;
+import com.intuit.profileservice.service.impl.ProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.intuit.profileservice.models.Profile;
-import com.intuit.profileservice.repository.ProfileRepository;
-import com.intuit.profileservice.service.AuditLogService;
-import com.intuit.profileservice.service.impl.ProfileServiceImpl;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

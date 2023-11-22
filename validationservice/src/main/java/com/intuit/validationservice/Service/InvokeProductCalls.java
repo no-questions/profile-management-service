@@ -2,7 +2,6 @@ package com.intuit.validationservice.Service;
 
 import com.intuit.validationservice.dto.BaseResponse;
 import com.intuit.validationservice.dto.CreateValidateDto;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

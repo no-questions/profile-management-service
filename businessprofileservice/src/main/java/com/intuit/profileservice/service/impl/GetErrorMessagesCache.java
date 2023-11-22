@@ -1,27 +1,24 @@
 package com.intuit.profileservice.service.impl;
 
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.retry.annotation.Retryable;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientResponseException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.service.FallbackService;
 import com.intuit.profileservice.service.GetErrorMessages;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Arrays;
 
 import static com.intuit.profileservice.util.Constants.*;
 
@@ -100,7 +97,7 @@ public class GetErrorMessagesCache implements GetErrorMessages {
     private String fallbackForErrorMessageDefault(String errorCode) {
         logMethodEntry("fallbackForErrorMessageDefault");
         // Call the fallback service to retrieve the fallback error message
-        return errorCode.equalsIgnoreCase(SUCCESS_RESCODE)?SUCCESS_RESCODE_DEFAULT_MSG:FAILURE_RESCODE_DEFAULT_MSG;
+        return errorCode.equalsIgnoreCase(SUCCESS_RESCODE) ? SUCCESS_RESCODE_DEFAULT_MSG : FAILURE_RESCODE_DEFAULT_MSG;
     }
 
     private void logMethodEntry(String methodName) {

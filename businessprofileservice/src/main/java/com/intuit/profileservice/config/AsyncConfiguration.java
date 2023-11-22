@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.*;
 
@@ -35,17 +34,17 @@ public class AsyncConfiguration {
      *
      * @return Executor representing a ThreadPoolExecutor for handling asynchronous tasks.
      */
-   @Bean
-   public Executor threadPoolTaskExecutor() {
-       return new ThreadPoolExecutor(
-               corePoolSize,
-               maximumPoolSize,
-               keepAliveTime,
-               unit,
-               workQueue,
-               threadFactory,
-               handler
-       );
-   }
+    @Bean
+    public Executor threadPoolTaskExecutor() {
+        return new ThreadPoolExecutor(
+                corePoolSize,
+                maximumPoolSize,
+                keepAliveTime,
+                unit,
+                workQueue,
+                threadFactory,
+                handler
+        );
+    }
 
 }
