@@ -1,5 +1,8 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
+import com.intuit.profileservice.dto.ErrorCodeDto;
+import com.intuit.profileservice.exceptions.ApplicationException;
+import com.intuit.profileservice.service.FallbackService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -9,12 +12,8 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.profileservice.dto.ErrorCodeDto;
-import com.intuit.profileservice.exceptions.ApplicationException;
-import com.intuit.profileservice.service.FallbackService;
-import com.intuit.profileservice.service.impl.GetErrorMessagesCache;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class GetErrorMessagesCacheTest {

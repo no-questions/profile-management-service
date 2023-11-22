@@ -1,10 +1,9 @@
 package com.intuit.profileservice.controller;
 
-import com.intuit.profileservice.dto.BaseResponse;
-import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.CreateProfileResponseDto;
-import com.intuit.profileservice.exceptions.ApplicationException;
+import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.models.Profile;
+import com.intuit.profileservice.service.ErrorCodesService;
 import com.intuit.profileservice.service.HandlingService;
 import com.intuit.profileservice.service.ProfileService;
 import com.intuit.profileservice.service.ValidateProfileService;
@@ -12,7 +11,6 @@ import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
 import com.intuit.profileservice.transformer.CreateProfileTransformer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,7 +42,7 @@ public class CreateController {
     private final ProfileService profileService;
     private final ValidateProfileService validateProfileService;
     private final CreateProfileTransformer createProfileTransformer;
-    private final ErrorCodesServiceImpl errorCodesServiceImpl;
+    private final ErrorCodesService errorCodesService;
     private final HandlingService handlingService;
 
     /**
@@ -66,7 +64,7 @@ public class CreateController {
             handlingService.handleDuplicateLegalName();
         }
         // Handling other validation failures
-        else if (errorCodesServiceImpl.checkForFailure(validateProfileService.validateProfile(requestDto))) {
+        else if (errorCodesService.checkForFailure(validateProfileService.validateProfile(requestDto))) {
             handlingService.handleValidationFailure();
         }
 

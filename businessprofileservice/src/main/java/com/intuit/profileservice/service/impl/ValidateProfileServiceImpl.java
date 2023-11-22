@@ -1,9 +1,7 @@
 package com.intuit.profileservice.service.impl;
 
-import com.intuit.profileservice.dto.BaseResponse;
 import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.ProfileValidationsResp;
-import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Profile;
@@ -11,10 +9,7 @@ import com.intuit.profileservice.service.HandlingService;
 import com.intuit.profileservice.service.ValidateProfileService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.intuit.profileservice.util.Constants.RESCODE_BADREQUEST;
 import static com.intuit.profileservice.util.Constants.RESCODE_VALIDATIONFAILURE;
@@ -35,15 +29,12 @@ import static com.intuit.profileservice.util.Constants.RESCODE_VALIDATIONFAILURE
 @RequiredArgsConstructor
 public class ValidateProfileServiceImpl implements ValidateProfileService {
 
-    @Value("${intuit.validateprofile.url}")
-    private String validateProfileUrl;
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final ProfileServiceImpl profileService;
-
     private final RestTemplate restTemplate;
     private final HandlingService handlingService;
+    @Value("${intuit.validateprofile.url}")
+    private String validateProfileUrl;
 
     /**
      * Performs pre-request validations for profile creation.
@@ -52,6 +43,10 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
      * @return true if the validation passes, false otherwise.
      * @throws Exception if an error occurs during the validation process.
      */
+
+    @HystrixCommand(fallbackMethod = "fallBackForPreReqValidation", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    })
     @Override
     public boolean preRequestCreationValidations(ProfileRequestDto request) {
         logger.debug("Entering preRequestValidations method");
@@ -71,14 +66,18 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
         }
     }
 
+    private boolean fallBackForPreReqValidation(ProfileRequestDto request) {
+        return false;
+    }
+
     /**
      * Validates a profile using an external service through REST.
      *
      * @param requestDto The profile validation request.
      * @return The response from the profile validation.
-     * @throws BadRequestException if a 4xx client error occurs during the REST call.
+     * @throws BadRequestException  if a 4xx client error occurs during the REST call.
      * @throws ApplicationException if an application-level exception occurs during the REST call.
-     * @throws Exception if an error occurs during the validation process.
+     * @throws Exception            if an error occurs during the validation process.
      */
     @Override
     @HystrixCommand(fallbackMethod = "fallbackForErrorMessage", commandProperties = {
@@ -121,7 +120,7 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
     }
 
     private ProfileValidationsResp fallbackForErrorMessage(ProfileRequestDto request) {
-        logger.info("Entering Fallback method: fallbackForErrorMessage {}",request);
+        logger.info("Entering Fallback method: fallbackForErrorMessage {}", request);
         handlingService.handleValidationFailure();
         return null;
     }

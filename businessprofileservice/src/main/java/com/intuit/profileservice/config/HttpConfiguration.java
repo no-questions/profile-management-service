@@ -1,8 +1,6 @@
 package com.intuit.profileservice.config;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

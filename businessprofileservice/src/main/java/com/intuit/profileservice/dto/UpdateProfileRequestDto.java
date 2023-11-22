@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class UpdateProfileRequestDto extends ProfileRequestDto{
+public class UpdateProfileRequestDto extends ProfileRequestDto {
 
     @JsonProperty("customerId")
     @NotBlank

@@ -1,16 +1,11 @@
 package com.intuit.profileservice.controller;
 
-import com.intuit.profileservice.dto.CreateProfileResponseDto;
 import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.dto.UpdateProfileResponseDto;
-import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.service.*;
-import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
-import com.intuit.profileservice.transformer.UpdateProfileTransformer;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

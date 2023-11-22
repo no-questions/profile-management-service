@@ -9,10 +9,8 @@ import com.intuit.profileservice.repository.ErrorCodesRepository;
 import com.intuit.profileservice.service.ErrorCodesService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,23 +18,17 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ErrorCodesServiceImpl implements ErrorCodesService {
 
-    // Autowired dependencies using Lombok's @RequiredArgsConstructor
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ErrorCodesRepository errorCodesRepository;
     private final RestTemplate restTemplate;
@@ -75,7 +67,7 @@ public class ErrorCodesServiceImpl implements ErrorCodesService {
      *
      * @param resp The ProfileValidationsResp containing response codes.
      * @return true if any response code indicates a failure, false otherwise.
-     * @throws BadRequestException if a 4xx client error occurs during the check.
+     * @throws BadRequestException  if a 4xx client error occurs during the check.
      * @throws ApplicationException if an error occurs during the check.
      */
     @Override

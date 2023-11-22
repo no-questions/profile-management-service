@@ -4,10 +4,8 @@ import com.intuit.cacheservice.exceptions.ApplicationException;
 import com.intuit.cacheservice.exceptions.BadRequestException;
 import com.intuit.cacheservice.models.ErrorCodesCache;
 import com.intuit.cacheservice.repository.ErrorCodesCacheRepository;
-
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ public class ErrorCodesCacheService {
     private final DataLoadingService dataLoadingService;
 
 
-
     public ErrorCodesCache getByErrorCode(String errorCode) {
         return errorCodesCacheRepository.findByErrorcode(errorCode);
 //        return errorDescription != null ? errorDescription.getErrormessage() : null;
@@ -35,7 +32,7 @@ public class ErrorCodesCacheService {
 //        return errorDescription != null ? errorDescription.getErrormessage() : null;
     }
 
-     @PostConstruct
+    @PostConstruct
     void refreshCache() {
         logger.info("Entering refreshCache method");
 

@@ -1,15 +1,12 @@
 package com.intuit.profileservice.service.impl;
 
-import com.intuit.profileservice.dto.BaseResponse;
 import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.repository.ProfileRepository;
 import com.intuit.profileservice.service.AuditLogService;
 import com.intuit.profileservice.service.ProfileService;
-
 import com.intuit.profileservice.transformer.UpdateProfileTransformer;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

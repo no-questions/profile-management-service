@@ -1,4 +1,4 @@
-package com.intuit.businessprofileservice.transformers;
+package com.intuit.profileservice.transformers;
 
 
 import com.intuit.profileservice.dto.ProfileRequestDto;
@@ -7,11 +7,11 @@ import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
 import com.intuit.profileservice.transformer.CreateProfileTransformer;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CreateProfileTransformerTest {
 

@@ -1,5 +1,6 @@
 package com.intuit.profileservice.models;
 
+import com.intuit.profileservice.repository.listener.ProfileListener;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,13 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-import com.intuit.profileservice.repository.listener.ProfileListener;
-
 @Entity
 @EntityListeners(ProfileListener.class)
 @Table(name = "businessprofile", indexes = {
-    @Index(columnList = "legalname"),
-    @Index(columnList = "id")
+        @Index(columnList = "legalname",name = "businessprofile_legalname_idx")
 })
 @Data
 public class Profile implements Serializable {

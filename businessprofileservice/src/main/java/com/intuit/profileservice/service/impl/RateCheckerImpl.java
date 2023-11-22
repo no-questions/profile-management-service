@@ -1,20 +1,15 @@
 package com.intuit.profileservice.service.impl;
 
-import java.util.Arrays;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.intuit.profileservice.exceptions.ApplicationException;
+import com.intuit.profileservice.service.RateChecker;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.intuit.profileservice.exceptions.ApplicationException;
-import com.intuit.profileservice.service.RateChecker;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +31,7 @@ public class RateCheckerImpl implements RateChecker {
     // @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
     //         @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
     // })
-    @Retryable(value = { ApplicationException.class })
+    @Retryable(value = {ApplicationException.class})
     public Boolean getUpdateRate(String customerId, String action, boolean increment) {
         // Set up HTTP headers
         HttpHeaders headers = new HttpHeaders();

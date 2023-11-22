@@ -1,11 +1,9 @@
 package com.intuit.profileservice.service.impl;
 
-import org.springframework.stereotype.Component;
-
 import com.intuit.profileservice.models.ErrorCodes;
 import com.intuit.profileservice.service.FallbackService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

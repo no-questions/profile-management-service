@@ -1,12 +1,8 @@
 package com.intuit.profileservice.controller;
 
-import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.dto.FetchErrorCodeDBResp;
-import com.intuit.profileservice.models.ErrorCodes;
 import com.intuit.profileservice.service.ErrorCodesService;
-
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.intuit.profileservice.util.Constants.DB_CONTROLLER_PATH;
 import static com.intuit.profileservice.util.Constants.DB_GET_ERRORCODES;

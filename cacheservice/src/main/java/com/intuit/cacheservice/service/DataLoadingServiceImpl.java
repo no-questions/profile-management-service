@@ -18,14 +18,21 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DataLoadingServiceImpl implements DataLoadingService{
+public class DataLoadingServiceImpl implements DataLoadingService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
+    private final RestTemplate restTemplate;
     @Value("${intuit.profileservice.getallerrorcodes}")
     private String getAllErrorCodesURI;
-    private final RestTemplate restTemplate;
 
+    public static List<ErrorCodesCache> convertList(List<ErrorCodeDto> sourceList) {
+        return sourceList.stream()
+                .map(sourceObject -> {
+                    return ErrorCodesCache.builder().isfailure(sourceObject.getIsfailure())
+                            .isretryeligible(sourceObject.getIsretryeligible()).errorcode(sourceObject.getErrorcode())
+                            .errormessage(sourceObject.getErrormessage()).build();
+                })
+                .collect(Collectors.toList());
+    }
 
     @HystrixCommand(fallbackMethod = "dataToBeLoadedFromInMemory", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
@@ -74,15 +81,5 @@ public class DataLoadingServiceImpl implements DataLoadingService{
                 ErrorCodesCache.builder().errorcode("LCC").errormessage("Legal Name cannot be changed").isfailure(false).isretryeligible(false).build(),
                 ErrorCodesCache.builder().errorcode("RLE").errormessage("Rate limit exceeded").isfailure(true).isretryeligible(true).build()
         );
-    }
-
-    public static List<ErrorCodesCache> convertList(List<ErrorCodeDto> sourceList) {
-        return sourceList.stream()
-                .map(sourceObject -> {
-                    return ErrorCodesCache.builder().isfailure(sourceObject.getIsfailure())
-                            .isretryeligible(sourceObject.getIsretryeligible()).errorcode(sourceObject.getErrorcode())
-                            .errormessage(sourceObject.getErrormessage()).build();
-                })
-                .collect(Collectors.toList());
     }
 }

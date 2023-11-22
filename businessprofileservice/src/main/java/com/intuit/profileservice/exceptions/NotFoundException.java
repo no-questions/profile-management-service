@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NotFoundException extends RuntimeException{
+public class NotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1;
 
@@ -24,7 +24,11 @@ public class NotFoundException extends RuntimeException{
         this.errorMessage = errorMessage;
     }
 
-    public NotFoundException() { super();}
+    public NotFoundException() {
+        super();
+    }
 
-    public NotFoundException(String message) { super(message); }
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

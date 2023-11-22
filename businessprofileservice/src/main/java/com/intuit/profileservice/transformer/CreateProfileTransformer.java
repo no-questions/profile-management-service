@@ -6,7 +6,6 @@ import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -1,25 +1,22 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intuit.profileservice.models.AuditLog;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.repository.AuditLogRepository;
-import com.intuit.profileservice.service.impl.AuditLogServiceImpl;
 import com.intuit.profileservice.util.EncryptDecryptUtil;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
-import org.springframework.scheduling.annotation.Async;
+
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
-import java.util.UUID;
 
 class AuditLogServiceImplTest {
 

@@ -2,6 +2,7 @@ package com.intuit.profileservice.service;
 
 public interface HandlingService {
     void handleDuplicateLegalName();
+
     void handleValidationFailure();
 
     void handleRateLimitExceeded();
@@ -9,6 +10,7 @@ public interface HandlingService {
     void handleNoRecordFound();
 
     void handleDuplicateLegalName(String message);
+
     void handleValidationFailure(String message);
 
     void handleBadRequest(String message);

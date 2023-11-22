@@ -1,4 +1,4 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,13 +8,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.profileservice.service.impl.RateCheckerImpl;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
 
 class RateCheckerImplTest {
 

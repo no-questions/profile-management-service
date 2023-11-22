@@ -1,17 +1,14 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
+import com.intuit.profileservice.models.ErrorCodes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.intuit.profileservice.models.ErrorCodes;
-import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
-import com.intuit.profileservice.service.impl.FallbackServiceImpl;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 class FallbackServiceImplTest {
 
@@ -30,8 +27,8 @@ class FallbackServiceImplTest {
     void testFallbackForErrorMessage_ExistingErrorCode() {
         // Arrange
         String errorCode = "00";
-        ErrorCodes expectedErrorCodes = new ErrorCodes(errorCode, "Description1",false,false);
-        
+        ErrorCodes expectedErrorCodes = new ErrorCodes(errorCode, "Description1", false, false);
+
         when(errorCodesServiceImpl.findByErrorCode(errorCode)).thenReturn(expectedErrorCodes);
 
         // Act

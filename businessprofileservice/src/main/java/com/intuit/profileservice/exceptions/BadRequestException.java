@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BadRequestException extends RuntimeException{
-    
+public class BadRequestException extends RuntimeException {
+
     private static final long serialVersionUID = 1;
 
     private String errorCode;
@@ -24,7 +24,11 @@ public class BadRequestException extends RuntimeException{
         this.errorMessage = errorMessage;
     }
 
-    public BadRequestException() { super();}
+    public BadRequestException() {
+        super();
+    }
 
-    public BadRequestException(String message) { super(message); }
+    public BadRequestException(String message) {
+        super(message);
+    }
 }
