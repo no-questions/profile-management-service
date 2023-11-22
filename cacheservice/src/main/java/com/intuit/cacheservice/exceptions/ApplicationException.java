@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApplicationException extends RuntimeException{
-    
+public class ApplicationException extends RuntimeException {
+
     private static final long serialVersionUID = 1;
 
     private String errorCode;
@@ -25,7 +25,11 @@ public class ApplicationException extends RuntimeException{
         this.errorMessage = errorMessage;
     }
 
-    public ApplicationException() { super();}
+    public ApplicationException() {
+        super();
+    }
 
-    public ApplicationException(String message) { super(message); }
+    public ApplicationException(String message) {
+        super(message);
+    }
 }
