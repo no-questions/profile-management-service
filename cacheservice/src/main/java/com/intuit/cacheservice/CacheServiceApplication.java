@@ -10,10 +10,10 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @EnableRedisRepositories
 @EnableCaching
 @EnableCircuitBreaker
-public class CacheserviceApplication {
+public class CacheServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CacheserviceApplication.class, args);
+        SpringApplication.run(CacheServiceApplication.class, args);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.intuit.cacheservice.controller;
 
+import com.intuit.cacheservice.service.ErrorCodesCacheService;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
@@ -19,16 +20,16 @@ import com.intuit.cacheservice.repository.ErrorCodesCacheRepository;
 public class FetchController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final ErrorCodesCacheRepository errorCodesCacheRepository;
+    private final ErrorCodesCacheService errorCodesCacheService;
 
     @GetMapping("/get/errordescription")
     public ResponseEntity<ErrorCodesCache> getErrorDescription(@RequestParam("message") String message) {
         logger.info("/get/errordescription getErrorDescription entry {}",message);
-        return new ResponseEntity<>(errorCodesCacheRepository.findByErrorcode(message), HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(errorCodesCacheService.getByErrorCode(message), HttpStatusCode.valueOf(200));
     }
 
     @GetMapping("/get/all")
     public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(errorCodesCacheRepository.findAll(), HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(errorCodesCacheService.getAllErrorCodes(), HttpStatusCode.valueOf(200));
     }
 }

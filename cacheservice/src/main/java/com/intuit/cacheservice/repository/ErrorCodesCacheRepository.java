@@ -11,4 +11,6 @@ public interface ErrorCodesCacheRepository extends CrudRepository<ErrorCodesCach
     ErrorCodesCache findByErrorcode(String errorcode);
     List<ErrorCodesCache> findByIsfailure(Boolean isfailure);
     List<ErrorCodesCache> findByIsretryeligible(Boolean isretryeligible);
+
+    List<ErrorCodesCache> findAll();
 }
