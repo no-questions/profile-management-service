@@ -1,4 +1,4 @@
-package com.intuit.businessprofileservice.transformers;
+package com.intuit.profileservice.transformers;
 
 
 import com.intuit.profileservice.dto.ProfileRequestDto;

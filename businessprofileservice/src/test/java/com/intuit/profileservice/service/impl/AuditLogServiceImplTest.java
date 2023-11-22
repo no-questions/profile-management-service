@@ -1,11 +1,10 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intuit.profileservice.models.AuditLog;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.repository.AuditLogRepository;
-import com.intuit.profileservice.service.impl.AuditLogServiceImpl;
 import com.intuit.profileservice.util.EncryptDecryptUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

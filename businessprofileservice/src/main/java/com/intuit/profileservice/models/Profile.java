@@ -11,8 +11,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(ProfileListener.class)
 @Table(name = "businessprofile", indexes = {
-        @Index(columnList = "legalname"),
-        @Index(columnList = "id")
+        @Index(columnList = "legalname",name = "businessprofile_legalname_idx")
 })
 @Data
 public class Profile implements Serializable {

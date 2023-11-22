@@ -1,9 +1,8 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.repository.ProfileRepository;
 import com.intuit.profileservice.service.AuditLogService;
-import com.intuit.profileservice.service.impl.ProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

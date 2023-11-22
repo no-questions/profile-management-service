@@ -2,16 +2,22 @@ package com.intuit.validationservice.Service;
 
 import com.intuit.validationservice.dto.BaseResponse;
 import com.intuit.validationservice.dto.CreateValidateDto;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class InvokeProductCalls {
 
     private final Logger logger = LoggerFactory.getLogger(InvokeProductCalls.class);
+    private final Map<String,String> mapResCodes;
 
     private static String selectErrorCode(double probability00) {
         String[] errorCodes = {
@@ -34,32 +40,61 @@ public class InvokeProductCalls {
         }
     }
 
+    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
+    })
     public BaseResponse invokeProductA(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setResCode(selectErrorCode(100));
+//        baseResponse.setResCode(selectErrorCode(100));
+        baseResponse.setResCode(mapResCodes.get("A"));
+        logResponse("invokeProductA", baseResponse);
+        return baseResponse;
+
+    }
+
+    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
+    })
+    public BaseResponse invokeProductB(CreateValidateDto req) {
+        BaseResponse baseResponse = new BaseResponse();
+//        baseResponse.setResCode(selectErrorCode(100));
+        baseResponse.setResCode(mapResCodes.get("B"));
         logResponse("invokeProductA", baseResponse);
         return baseResponse;
     }
 
-    public BaseResponse invokeProductB(CreateValidateDto req) {
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setResCode(selectErrorCode(90));
-        logResponse("invokeProductB", baseResponse);
-        return baseResponse;
-    }
-
+    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
+    })
     public BaseResponse invokeProductC(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setResCode(selectErrorCode(80));
+//        baseResponse.setResCode(selectErrorCode(100));
+        baseResponse.setResCode(mapResCodes.get("A"));
         logResponse("invokeProductC", baseResponse);
         return baseResponse;
     }
 
+    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
+    })
     public BaseResponse invokeProductD(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setResCode(selectErrorCode(100));
+//        baseResponse.setResCode(selectErrorCode(100));
+        baseResponse.setResCode(mapResCodes.get("A"));
         logResponse("invokeProductD", baseResponse);
         return baseResponse;
+    }
+
+    private BaseResponse fallBackForFailure(CreateValidateDto req){
+        return new BaseResponse("FE","Failure");
     }
 
     private void logResponse(String methodName, BaseResponse response) {

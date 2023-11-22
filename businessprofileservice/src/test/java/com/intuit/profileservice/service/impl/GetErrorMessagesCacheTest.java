@@ -1,9 +1,8 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.dto.ErrorCodeDto;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.service.FallbackService;
-import com.intuit.profileservice.service.impl.GetErrorMessagesCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

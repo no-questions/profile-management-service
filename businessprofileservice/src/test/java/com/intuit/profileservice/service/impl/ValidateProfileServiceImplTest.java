@@ -1,12 +1,10 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.dto.BaseResponse;
 import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.ProfileValidationsResp;
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
-import com.intuit.profileservice.service.impl.ProfileServiceImpl;
-import com.intuit.profileservice.service.impl.ValidateProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ErrorCodesServiceImpl implements ErrorCodesService {
 
-    // Autowired dependencies using Lombok's @RequiredArgsConstructor
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ErrorCodesRepository errorCodesRepository;
     private final RestTemplate restTemplate;

@@ -43,6 +43,10 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
      * @return true if the validation passes, false otherwise.
      * @throws Exception if an error occurs during the validation process.
      */
+
+    @HystrixCommand(fallbackMethod = "fallBackForPreReqValidation", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    })
     @Override
     public boolean preRequestCreationValidations(ProfileRequestDto request) {
         logger.debug("Entering preRequestValidations method");
@@ -60,6 +64,10 @@ public class ValidateProfileServiceImpl implements ValidateProfileService {
         } finally {
             logger.debug("Exiting preRequestValidations method");
         }
+    }
+
+    private boolean fallBackForPreReqValidation(ProfileRequestDto request) {
+        return false;
     }
 
     /**

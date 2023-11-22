@@ -1,8 +1,6 @@
-package com.intuit.businessprofileservice.service.impl;
+package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.models.ErrorCodes;
-import com.intuit.profileservice.service.impl.ErrorCodesServiceImpl;
-import com.intuit.profileservice.service.impl.FallbackServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
