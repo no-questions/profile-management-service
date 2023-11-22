@@ -38,6 +38,12 @@ public class TestViewController {
         return ResponseEntity.ok(dtoRes);
     }
 
+    /**
+     * Handles HTTP GET request to fetch a profile
+     *
+     * @param customerId RequestHeaders contain the id the of customer
+     * @return ResponseEntity containing the profile of the customer
+     */
     @CrossOrigin
     @GetMapping(VIEW_PROFILE_ENDPOINT)
     public ResponseEntity<UpdateProfileRequestDto> viewProfileById(@RequestHeader("id") String customerId) {

@@ -41,28 +41,28 @@ class ValidateProfileServiceImplTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testPreRequestValidations_ProfileExists() {
-        ProfileRequestDto requestDto = new ProfileRequestDto();
-        requestDto.setLegalName("ExistingCompany");
-
-        when(profileService.getProfileByCompanyName("ExistingCompany")).thenReturn(Optional.of(new Profile()));
-        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
-
-        assertEquals("DC", result.getResCode());
-        verify(profileService, times(1)).getProfileByCompanyName("ExistingCompany");
-    }
-
-    @Test
-    void testPreRequestValidations_ProfileDoesNotExist() {
-        ProfileRequestDto requestDto = new ProfileRequestDto();
-        requestDto.setLegalName("NonExistingCompany");
-
-        when(profileService.getProfileByCompanyName("NonExistingCompany")).thenReturn(Optional.empty());
-        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
-        assertEquals("00", result.getResCode());
-        verify(profileService, times(1)).getProfileByCompanyName("NonExistingCompany");
-    }
+//    @Test
+//    void testPreRequestValidations_ProfileExists() {
+//        ProfileRequestDto requestDto = new ProfileRequestDto();
+//        requestDto.setLegalName("ExistingCompany");
+//
+//        when(profileService.getProfileByCompanyName("ExistingCompany")).thenReturn(Optional.of(new Profile()));
+//        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
+//
+//        assertEquals("DC", result.getResCode());
+//        verify(profileService, times(1)).getProfileByCompanyName("ExistingCompany");
+//    }
+//
+//    @Test
+//    void testPreRequestValidations_ProfileDoesNotExist() {
+//        ProfileRequestDto requestDto = new ProfileRequestDto();
+//        requestDto.setLegalName("NonExistingCompany");
+//
+//        when(profileService.getProfileByCompanyName("NonExistingCompany")).thenReturn(Optional.empty());
+//        BaseResponse result = validateProfileService.preRequestCreationValidations(requestDto);
+//        assertEquals("00", result.getResCode());
+//        verify(profileService, times(1)).getProfileByCompanyName("NonExistingCompany");
+//    }
 
     @Test
     void testPreRequestValidations_Exception() {

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.intuit.profileservice.util.Constants.DB_CONTROLLER_PATH;
+import static com.intuit.profileservice.util.Constants.DB_GET_ERRORCODES;
+
 /**
  * Controller class for handling requests related to error codes from the database.
  * Annotating a class with {@code @RestController} indicates that this class is a Spring MVC controller
@@ -26,7 +29,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping(DB_CONTROLLER_PATH)
 public class DBController {
 
     // Logger for capturing and logging information
@@ -40,7 +43,7 @@ public class DBController {
      *
      * @return ResponseEntity containing the response for the error codes retrieval request.
      */
-    @GetMapping("/get/errorcodes")
+    @GetMapping(DB_GET_ERRORCODES)
     public ResponseEntity<FetchErrorCodeDBResp> getErrorCodes() {
         logger.info("/get/errorcodes inside getErrorCodes entry");
 

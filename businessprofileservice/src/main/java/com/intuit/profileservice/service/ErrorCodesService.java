@@ -14,8 +14,6 @@ public interface ErrorCodesService {
 
     Boolean checkForFailure(ProfileValidationsResp resp);
 
-    Boolean fallbackForFailureIdentification(ProfileValidationsResp resp);
-
     List<ErrorCodeDto> convertList(List<ErrorCodes> sourceList);
 }
 

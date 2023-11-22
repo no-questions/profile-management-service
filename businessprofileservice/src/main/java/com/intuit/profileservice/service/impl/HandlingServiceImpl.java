@@ -31,5 +31,26 @@ public class HandlingServiceImpl implements HandlingService {
         throw new NotFoundException(RESCODE_NF,RESCODE_NF_DEFAULT_MSG);
     }
 
+    @Override
+    public void handleDuplicateLegalName(String message) {
+
+        throw new ApplicationException(RESCODE_DC, message);
+    }
+
+    @Override
+    public void handleValidationFailure(String message) {
+        throw new ApplicationException(RESCODE_VALIDATIONFAILURE,message);
+    }
+
+    @Override
+    public void handleBadRequest(String message) {
+        throw new BadRequestException(RESCODE_RLE,message);
+    }
+
+    @Override
+    public void handleNoRecordFound(String message) {
+        throw new NotFoundException(RESCODE_NF,message);
+    }
+
 
 }

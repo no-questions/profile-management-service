@@ -3,6 +3,7 @@ package com.intuit.profileservice.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -10,6 +11,7 @@ import java.lang.reflect.Method;
  * Custom implementation of {@link AsyncUncaughtExceptionHandler} for handling uncaught exceptions
  * that occur during the execution of asynchronous methods.
  */
+@Component
 public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 
     // Logger for capturing and logging exceptions

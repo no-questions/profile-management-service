@@ -7,4 +7,11 @@ public interface HandlingService {
     void handleRateLimitExceeded();
 
     void handleNoRecordFound();
+
+    void handleDuplicateLegalName(String message);
+    void handleValidationFailure(String message);
+
+    void handleBadRequest(String message);
+
+    void handleNoRecordFound(String message);
 }

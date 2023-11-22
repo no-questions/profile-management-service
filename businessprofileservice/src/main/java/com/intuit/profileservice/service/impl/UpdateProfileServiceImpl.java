@@ -12,18 +12,35 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.intuit.profileservice.util.Constants.RESCODE_LCC;
+import static com.intuit.profileservice.util.Constants.RESCODE_LCC_DEFAULT_MSG;
+
 @Service
 @RequiredArgsConstructor
 public class UpdateProfileServiceImpl implements UpdateProfileService {
 
     private final ProfileService profileService;
     private final UpdateProfileTransformer updateProfileTransformer;
+
+    /**
+     * Updates a profile based on the provided request.
+     *
+     * @param request The update profile request.
+     * @return The updated profile.
+     * @throws ApplicationException if the legal name is changed.
+     */
     @Override
     public Profile updateProfile(UpdateProfileRequestDto request) {
-        Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(request.getCustomerId()),request.getLegalName());
+        // Retrieve the profile based on customer ID and legal name
+        Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(
+                UUID.fromString(request.getCustomerId()), request.getLegalName());
+
+        // If no profile is found, throw an application-level exception
         if (optProfiles.isEmpty()) {
-                throw new ApplicationException("LCC", "Legal Name Cannot be changed");
+            throw new ApplicationException(RESCODE_LCC, RESCODE_LCC_DEFAULT_MSG);
         }
+
+        // Convert the DTO to a model and update the profile
         return updateProfileTransformer.convertDtoToModel(request, optProfiles.get());
     }
 }

@@ -132,7 +132,7 @@ public class UpdateProfileTransformer {
             return profile;
         } catch (Exception e) {
             handleConversionException("convertDtoToModel", e);
-            throw e; // Rethrow the exception after logging
+            throw e;
         } finally {
             logger.debug("Exiting convertDtoToModel method");
         }

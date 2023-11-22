@@ -1,11 +1,12 @@
-# profile-management-service
+##### profile-management-service
 
 Services to validate creation and updation of user profiles
 
 before starting the application run up.sh to start cache and db servers
 required configuration to connect to them is already hardcoded
 
-## create the table using following scripts or let it be created automatically on business profile service startup
+##### create the table using following scripts or let it be created automatically on business profile service startup
+
 CREATE TABLE public.address (
 	id INT8 NOT NULL,
 	city VARCHAR(255) NOT NULL,
@@ -98,7 +99,7 @@ CREATE TABLE public.taxidentifiers (
 );
 
 
-## post this insert below data in errorcodes table
+#### post this insert below data in errorcodes table
 
 -- Query 1
 INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (false, false, '00', 'Success');
@@ -172,5 +173,6 @@ INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessa
 
 INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (false, false, 'LCC', 'Legal Name cannot be changed');
 
+INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (true, false, '404', 'No data found');
 
-### now you can start cacheservice and validation service and open swagger UI to check docs
+####### now you can start cacheservice and validation service and open swagger UI to check docs
