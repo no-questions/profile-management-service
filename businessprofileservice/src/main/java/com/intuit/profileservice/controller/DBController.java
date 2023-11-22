@@ -12,37 +12,48 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.intuit.profileservice.util.Constants.DB_CONTROLLER_PATH;
+import static com.intuit.profileservice.util.Constants.DB_GET_ERRORCODES;
+
+/**
+ * Controller class for handling requests related to error codes from the database.
+ * Annotating a class with {@code @RestController} indicates that this class is a Spring MVC controller
+ * where request handling methods are automatically mapped to the corresponding HTTP endpoints.
+ * The {@code @RequiredArgsConstructor} annotation generates a constructor with required fields.
+ */
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(DB_CONTROLLER_PATH)
 public class DBController {
 
+    // Logger for capturing and logging information
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    // Autowired service needed for error codes
     private final ErrorCodesService errorCodesService;
 
-    public static List<ErrorCodeDto> convertList(List<ErrorCodes> sourceList) {
-        return sourceList.stream()
-                .map(sourceObject -> {
-                    ErrorCodeDto targetObject = new ErrorCodeDto();
-                    targetObject.setErrorcode(sourceObject.getErrorcode());
-                    targetObject.setErrormessage(sourceObject.getErrormessage());
-                    targetObject.setIsfailure(sourceObject.getIsfailure());
-                    targetObject.setIsretryeligible(sourceObject.getIsretryeligible());
-                    return targetObject;
-                })
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/get/errorcodes")
+    /**
+     * Handles HTTP GET requests to retrieve error codes from the database.
+     *
+     * @return ResponseEntity containing the response for the error codes retrieval request.
+     */
+    @GetMapping(DB_GET_ERRORCODES)
     public ResponseEntity<FetchErrorCodeDBResp> getErrorCodes() {
         logger.info("/get/errorcodes inside getErrorCodes entry");
+
+        // Initializing the response object
         FetchErrorCodeDBResp resp = new FetchErrorCodeDBResp();
-        resp.setErrorCodes(convertList(errorCodesService.getAll()));
-        logger.info("/get/errorcodes getErrorCodes exit {}",resp);
+        resp.setErrorCodes(errorCodesService.convertList(errorCodesService.getAll()));
+
+        logger.info("/get/errorcodes getErrorCodes exit {}", resp);
+
+        // Returning the response with HTTP status OK (200)
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class UpdateProfileResponseDto {
-    public String resCode;
-    public String resMes;
+    private String resCode;
+    private String resMessage;
+    private String customerId;
+
 }

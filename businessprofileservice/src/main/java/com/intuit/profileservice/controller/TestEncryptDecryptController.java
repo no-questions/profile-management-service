@@ -8,9 +8,12 @@ import com.intuit.profileservice.util.EncryptDecryptUtil;
 
 import lombok.AllArgsConstructor;
 
+/*
+* apis inside this controller are meant for testing purpose only
+* these are not to be exposed to the APIM*/
 @RestController
 @AllArgsConstructor
-public class EncryptDecryptController {
+public class TestEncryptDecryptController {
     private final EncryptDecryptUtil encryptDecryptUtil;
     @GetMapping("decrypt/string")
     public ResponseEntity<String> decryptString(String encryptedString) {

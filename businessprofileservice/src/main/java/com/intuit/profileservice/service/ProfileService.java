@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.intuit.profileservice.dto.UpdateProfileRequestDto;
 import com.intuit.profileservice.models.Profile;
 
 public interface ProfileService {
@@ -19,4 +20,6 @@ public interface ProfileService {
     Optional<Profile> getProfileByCompanyName(String companyName);
 
     Optional<Profile> findByCustomeridAndLegalName(UUID id, String legalName);
+
+    UpdateProfileRequestDto convertProfileToUpdateRequest(Profile profile);
 }

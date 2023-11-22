@@ -22,22 +22,35 @@ import com.intuit.profileservice.util.Constants;
 @Configuration
 public class EncryptionConfiguration {
 
+    // Logger for capturing and logging errors
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    byte[] salt = new byte[] { 0x5a, 0x3f, 0x19, 0x7e, 0x2d, 0x1a, 0x7c, 0x4b };
 
+    /**
+     * Bean definition for obtaining a secret key using PBKDF2 key derivation function.
+     *
+     * @return A secret key generated using PBKDF2 with HmacSHA256.
+     * @throws NoSuchAlgorithmException if the specified algorithm is not available.
+     * @throws InvalidKeySpecException  if the provided key specification is invalid.
+     */
     @Bean
     SecretKey getSecretKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        try{
+        try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(Constants.KEY.toCharArray(), salt, 65536, 256);
+            KeySpec spec = new PBEKeySpec(Constants.KEY.toCharArray(), Constants.SALT, 65536, 256);
             return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), Constants.CIPHER);
-        }
-        catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            logger.error("Error occured in EncryptionConfiguration.getSecretKey", e.getMessage());
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // Log an error message if an exception occurs during secret key generation
+            logger.error("Error occurred in EncryptionConfiguration.getSecretKey: {}", e.getStackTrace());
             throw e;
         }
     }
 
+    /**
+     * Creates a secret key from the provided key bytes.
+     *
+     * @param keyBytes The byte array representing the secret key.
+     * @return A secret key created from the provided key bytes.
+     */
     public SecretKey createSecretKey(byte[] keyBytes) {
         return new SecretKeySpec(keyBytes, 0, keyBytes.length, Constants.CIPHER);
     }

@@ -24,4 +24,8 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
     public final ResponseEntity<BaseResponse> handleBadRequestException (BadRequestException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponse(ex.getErrorCode(),getErrorMessages.fetchErrorMessage(ex.getErrorCode())));
     }
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<BaseResponse> handleNotFoundException (NotFoundException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new BaseResponse(ex.getErrorCode(),getErrorMessages.fetchErrorMessage(ex.getErrorCode())));
+    }
 }

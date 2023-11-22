@@ -8,6 +8,7 @@ import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
 import com.intuit.profileservice.models.TaxIdentifier;
 import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
+import com.intuit.profileservice.repository.ProfileRepository;
 import com.intuit.profileservice.service.ProfileService;
 import com.intuit.profileservice.service.impl.ProfileServiceImpl;
 
@@ -27,7 +28,7 @@ public class UpdateProfileTransformer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final ProfileService profileService;
+//    private final ProfileRepository ProfileRepository;
 
     // public Profile convertDtoToModel(ProfileRequestDto dto) {
     // Optional<Profile> optProfiles =
@@ -91,16 +92,16 @@ public class UpdateProfileTransformer {
     // return einIdentifier;
     // }
 
-    public Profile convertDtoToModel(UpdateProfileRequestDto dto) {
+    public Profile convertDtoToModel(UpdateProfileRequestDto dto,Profile profile) {
         logger.debug("Entering convertDtoToModel method");
 
         try {
-            Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(dto.getCustomerId()),dto.getLegalName());
-            if (optProfiles.isEmpty()) {
-                throw new ApplicationException("LCC", "Legal Name Cannot be changed");
-            }
+//            Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(dto.getCustomerId()),dto.getLegalName());
+//            if (optProfiles.isEmpty()) {
+//                throw new ApplicationException("LCC", "Legal Name Cannot be changed");
+//            }
 
-            Profile profile = optProfiles.get();
+//            Profile profile = optProfiles.get();
 
             // Set simple properties
             profile.setCompanyname(dto.getCompanyName());
@@ -131,7 +132,7 @@ public class UpdateProfileTransformer {
             return profile;
         } catch (Exception e) {
             handleConversionException("convertDtoToModel", e);
-            throw e; // Rethrow the exception after logging
+            throw e;
         } finally {
             logger.debug("Exiting convertDtoToModel method");
         }
@@ -213,6 +214,62 @@ public class UpdateProfileTransformer {
         } finally {
             logger.debug("Exiting convertEinDtoToModel method");
         }
+    }
+
+    public UpdateProfileRequestDto convertModelToDto(Profile profile) {
+        if (profile == null) {
+            throw new IllegalArgumentException("Profile cannot be null");
+        }
+
+        UpdateProfileRequestDto dto = new UpdateProfileRequestDto();
+        dto.setCustomerId(profile.getId().toString());
+        dto.setCompanyName(profile.getCompanyname());
+        dto.setLegalName(profile.getLegalname());
+        dto.setEmail(profile.getEmail());
+        dto.setWebsite(profile.getWebsite());
+
+        if (profile.getBusinessaddress() != null) {
+            dto.setBusinessAddress(convertAddressModelToDto(profile.getBusinessaddress()));
+        }
+
+        if (profile.getLegaladdress() != null) {
+            dto.setLegalAddress(convertAddressModelToDto(profile.getLegaladdress()));
+        }
+
+        if (profile.getPandetails() != null || profile.getEindetails() != null) {
+            dto.setTaxIdentifiers(convertTaxIdentifiersModelToDto(profile));
+        }
+
+        return dto;
+    }
+
+    private ProfileRequestDto.AddressDTO convertAddressModelToDto(Address addressModel) {
+        if (addressModel == null) {
+            throw new IllegalArgumentException("Address model cannot be null");
+        }
+
+        ProfileRequestDto.AddressDTO addressDto = new ProfileRequestDto.AddressDTO();
+        addressDto.setLine1(addressModel.getLine1());
+        addressDto.setLine2(addressModel.getLine2());
+        addressDto.setCity(addressModel.getCity());
+        addressDto.setState(addressModel.getState());
+        addressDto.setZip(addressModel.getZip());
+        addressDto.setCountry(addressModel.getCountry());
+        return addressDto;
+    }
+
+    private ProfileRequestDto.TaxIdentifiersDTO convertTaxIdentifiersModelToDto(Profile profile) {
+        ProfileRequestDto.TaxIdentifiersDTO taxIdentifiersDto = new ProfileRequestDto.TaxIdentifiersDTO();
+
+        if (profile.getPandetails() != null) {
+            taxIdentifiersDto.setPan(profile.getPandetails().getIdentifier());
+        }
+
+        if (profile.getEindetails() != null) {
+            taxIdentifiersDto.setEin(profile.getEindetails().getIdentifier());
+        }
+
+        return taxIdentifiersDto;
     }
 
     private void handleConversionException(String methodName, Exception e) {
