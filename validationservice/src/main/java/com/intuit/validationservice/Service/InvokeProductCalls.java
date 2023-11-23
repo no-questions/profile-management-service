@@ -40,11 +40,7 @@ public class InvokeProductCalls {
         }
     }
 
-    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
-    })
+    @HystrixCommand(fallbackMethod = "fallBackForFailure")
     public BaseResponse invokeProductA(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));
@@ -54,11 +50,7 @@ public class InvokeProductCalls {
 
     }
 
-    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
-    })
+    @HystrixCommand(fallbackMethod = "fallBackForFailure")
     public BaseResponse invokeProductB(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));
@@ -67,11 +59,7 @@ public class InvokeProductCalls {
         return baseResponse;
     }
 
-    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
-    })
+    @HystrixCommand(fallbackMethod = "fallBackForFailure")
     public BaseResponse invokeProductC(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));
@@ -80,11 +68,7 @@ public class InvokeProductCalls {
         return baseResponse;
     }
 
-    @HystrixCommand(fallbackMethod = "fallBackForFailure", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "20"),
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "600000")
-    })
+    @HystrixCommand(fallbackMethod = "fallBackForFailure")
     public BaseResponse invokeProductD(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));

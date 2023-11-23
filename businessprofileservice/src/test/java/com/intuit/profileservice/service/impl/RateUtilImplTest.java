@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class RateCheckerImplTest {
+class RateUtilImplTest {
 
     @Mock
     private RestTemplate restTemplate;
 
     @InjectMocks
-    private RateCheckerImpl rateChecker;
+    private RateUtilImpl rateChecker;
 
     @BeforeEach
     public void setUp() {
@@ -39,7 +39,7 @@ class RateCheckerImplTest {
 
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(true, HttpStatus.OK));
-        Boolean result = rateChecker.getUpdateRate(customerId, action, increment);
+        Boolean result = rateChecker.getRate(customerId, action);
 
         assertTrue(result);
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
