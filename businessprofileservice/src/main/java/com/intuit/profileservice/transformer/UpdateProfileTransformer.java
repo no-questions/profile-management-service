@@ -22,93 +22,15 @@ public class UpdateProfileTransformer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-//    private final ProfileRepository ProfileRepository;
-
-    // public Profile convertDtoToModel(ProfileRequestDto dto) {
-    // Optional<Profile> optProfiles =
-    // profileService.getProfileByCompanyName(dto.getLegalName());
-    // if (optProfiles.isEmpty()) {
-    // throw new ApplicationException("DC","Duplicate legal name");
-    // }
-
-    // Profile profile = optProfiles.get();
-
-    // // Set simple properties
-    // profile.setLegalname(dto.getLegalName());
-    // profile.setEmail(dto.getEmail());
-    // profile.setWebsite(dto.getWebsite());
-
-    // // Set business address
-    // if (dto.getBusinessAddress() != null) {
-    // profile.setBusinessaddress(convertAddressDtoToModel(dto.getBusinessAddress()));
-    // }
-
-    // // Set legal address
-    // if (dto.getLegalAddress() != null) {
-    // profile.setLegaladdress(convertAddressDtoToModel(dto.getLegalAddress()));
-    // }
-
-    // if (dto.getTaxIdentifiers() != null) {
-    // profile.setPandetails(convertPanDtoToModel(dto.getTaxIdentifiers()));
-    // profile.setEindetails(convertEinDtoToModel(dto.getTaxIdentifiers()));
-    // }
-
-    // profile.setIsmodified(true);
-    // profile.setModifieddate(new Date());
-    // return profile;
-    // }
-
-    // private Address convertAddressDtoToModel(ProfileRequestDto.AddressDTO
-    // addressDto) {
-    // Address address = new Address();
-    // address.setLine1(addressDto.getLine1());
-    // address.setLine2(addressDto.getLine2());
-    // address.setCity(addressDto.getCity());
-    // address.setState(addressDto.getState());
-    // address.setZip(addressDto.getZip());
-    // address.setCountry(addressDto.getCountry());
-    // return address;
-    // }
-
-    // private TaxIdentifier
-    // convertPanDtoToModel(ProfileRequestDto.TaxIdentifiersDTO taxIdentifiersDto) {
-    // TaxIdentifier panIdentifier = new TaxIdentifier();
-    // panIdentifier.setType(TaxIDType.PAN.toString());
-    // panIdentifier.setIdentifier(taxIdentifiersDto.getPan());
-    // return panIdentifier;
-    // }
-
-    // private TaxIdentifier
-    // convertEinDtoToModel(ProfileRequestDto.TaxIdentifiersDTO taxIdentifiersDto) {
-    // TaxIdentifier einIdentifier = new TaxIdentifier();
-    // einIdentifier.setType(TaxIDType.EIN.toString());
-    // einIdentifier.setIdentifier(taxIdentifiersDto.getEin());
-    // return einIdentifier;
-    // }
-
     public Profile convertDtoToModel(UpdateProfileRequestDto dto, Profile profile) {
         logger.debug("Entering convertDtoToModel method");
 
         try {
-//            Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(UUID.fromString(dto.getCustomerId()),dto.getLegalName());
-//            if (optProfiles.isEmpty()) {
-//                throw new ApplicationException("LCC", "Legal Name Cannot be changed");
-//            }
+            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
+            newProfile.setId(UUID.fromString(dto.getCustomerId()));
+            if(newProfile.equals(profile))
+                throw new ApplicationException("UC","No changes in the profile");
 
-//            Profile profile = optProfiles.get();
-
-            // Set simple properties
-//            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
-//            newProfile.setId(UUID.fromString(dto.getCustomerId()));
-////            newProfile.setIsmodified(profile.getIsmodified());
-////            newProfile.setModifieddate(profile.getModifieddate());
-////            newProfile.getBusinessaddress().setId(newProfile.getBusinessaddress().getId());
-////            newProfile.getPandetails().setId(newProfile.getPandetails().getId());
-////            newProfile.getLegaladdress().setId(newProfile.getLegaladdress().getId());
-////            newProfile.getEindetails().setId(newProfile.getEindetails().getId());
-//            if(newProfile.equals(profile))
-//                throw new ApplicationException("UC","No changes in the profile");
             profile.setCompanyname(dto.getCompanyName());
             profile.setLegalname(dto.getLegalName());
             profile.setEmail(dto.getEmail());
