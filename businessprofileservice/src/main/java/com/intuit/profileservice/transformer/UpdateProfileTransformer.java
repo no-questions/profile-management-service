@@ -21,7 +21,6 @@ import java.util.UUID;
 public class UpdateProfileTransformer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final CreateProfileTransformer createProfileTransformer;
 
 
 //    private final ProfileRepository ProfileRepository;
@@ -100,16 +99,16 @@ public class UpdateProfileTransformer {
 //            Profile profile = optProfiles.get();
 
             // Set simple properties
-            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
-            newProfile.setId(UUID.fromString(dto.getCustomerId()));
-//            newProfile.setIsmodified(profile.getIsmodified());
-//            newProfile.setModifieddate(profile.getModifieddate());
-//            newProfile.getBusinessaddress().setId(newProfile.getBusinessaddress().getId());
-//            newProfile.getPandetails().setId(newProfile.getPandetails().getId());
-//            newProfile.getLegaladdress().setId(newProfile.getLegaladdress().getId());
-//            newProfile.getEindetails().setId(newProfile.getEindetails().getId());
-            if(newProfile.equals(profile))
-                throw new ApplicationException("UC","No changes in the profile");
+//            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
+//            newProfile.setId(UUID.fromString(dto.getCustomerId()));
+////            newProfile.setIsmodified(profile.getIsmodified());
+////            newProfile.setModifieddate(profile.getModifieddate());
+////            newProfile.getBusinessaddress().setId(newProfile.getBusinessaddress().getId());
+////            newProfile.getPandetails().setId(newProfile.getPandetails().getId());
+////            newProfile.getLegaladdress().setId(newProfile.getLegaladdress().getId());
+////            newProfile.getEindetails().setId(newProfile.getEindetails().getId());
+//            if(newProfile.equals(profile))
+//                throw new ApplicationException("UC","No changes in the profile");
             profile.setCompanyname(dto.getCompanyName());
             profile.setLegalname(dto.getLegalName());
             profile.setEmail(dto.getEmail());
