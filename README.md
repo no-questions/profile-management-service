@@ -204,4 +204,7 @@ Name cannot be changed');
 INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (true, false, '404', 'No data
 found');
 
+INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (true, false, 'UC', 'Unchanged profile');
+
+
 ####### now you can start cacheservice and validation service and open swagger UI to check docs

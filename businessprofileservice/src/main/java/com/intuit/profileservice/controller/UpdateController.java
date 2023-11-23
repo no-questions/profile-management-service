@@ -10,10 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.intuit.profileservice.util.Constants.*;
 
 /**
  * Controller class for handling profile update requests.
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
+@RequestMapping(UPDATE_CONTROLLER_PATH)
 public class UpdateController {
 
     // Logger for capturing and logging information
@@ -32,7 +32,7 @@ public class UpdateController {
     private final ValidateProfileService validateProfileService;
     private final ProfileService profileService;
     private final ErrorCodesService errorCodesService;
-    private final RateChecker rateChecker;
+    private final RateUtil rateUtil;
     private final HandlingService handlingService;
     private final UpdateProfileService updateProfileService;
 
@@ -43,7 +43,7 @@ public class UpdateController {
      * @return ResponseEntity containing the response for the profile update request.
      */
     @CrossOrigin
-    @PostMapping("/update/profile")
+    @PostMapping(UPDATE_PROFILE_ENDPOINT)
     public ResponseEntity<UpdateProfileResponseDto> updateProfile(@Valid @RequestBody UpdateProfileRequestDto requestDto) {
         logger.info("/update/profile inside updateProfile entry {}", requestDto);
 
@@ -51,7 +51,7 @@ public class UpdateController {
         UpdateProfileResponseDto res;
 
         // Checking if the update rate limit is exceeded
-        if (rateChecker.getUpdateRate(requestDto.getCustomerId(), "UPDATE", false)) {
+        if (rateUtil.getRate(requestDto.getCustomerId(), UPDATE_ACTION)) {
             handlingService.handleRateLimitExceeded();
         }
         // Checking for validation failure
@@ -71,7 +71,7 @@ public class UpdateController {
         logger.info("/update/profile inside updateProfile exit {}", res);
 
         // Updating the rate limit after a successful update
-        rateChecker.getUpdateRate(requestDto.getCustomerId(), "UPDATE", true);
+        rateUtil.updateRate(requestDto.getCustomerId(), UPDATE_ACTION);
 
         // Returning the response with HTTP status ACCEPTED (202)
         return new ResponseEntity<>(res, HttpStatus.ACCEPTED);

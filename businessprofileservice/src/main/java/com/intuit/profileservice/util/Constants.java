@@ -34,6 +34,10 @@ public class Constants {
     public static final String VIEW_PROFILE_ENDPOINT = "/profile";
     public static final String DB_CONTROLLER_PATH = "/get";
     public static final String DB_GET_ERRORCODES = "/errorcodes";
+    public static final String UPDATE_CONTROLLER_PATH = "/update";
+    public static final String UPDATE_PROFILE_ENDPOINT = "/profile";
+
+    public static final String UPDATE_ACTION = "UPDATE";
     private Constants() {
     }
 

@@ -10,17 +10,18 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
+import static com.intuit.profileservice.util.Constants.UPDATE_ACTION;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class RateCheckerImplTest {
+class RateUtilImplTest {
 
     @Mock
     private RestTemplate restTemplate;
 
     @InjectMocks
-    private RateCheckerImpl rateChecker;
+    private RateUtilImpl rateChecker;
 
     @BeforeEach
     public void setUp() {
@@ -39,7 +40,7 @@ class RateCheckerImplTest {
 
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(true, HttpStatus.OK));
-        Boolean result = rateChecker.getUpdateRate(customerId, action, increment);
+        Boolean result = rateChecker.getRate(customerId, action);
 
         assertTrue(result);
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
@@ -48,7 +49,7 @@ class RateCheckerImplTest {
     @Test
     void testGetUpdateRate_Failure() {
         String customerId = "456";
-        String action = "decrement";
+        String action = UPDATE_ACTION;
         boolean increment = false;
 
         HttpHeaders headers = new HttpHeaders();
@@ -58,7 +59,7 @@ class RateCheckerImplTest {
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenReturn(new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR));
 
-        Boolean result = rateChecker.getUpdateRate(customerId, action, increment);
+        Boolean result = rateChecker.getRate(customerId, action);
 
         assertFalse(result);
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
@@ -67,7 +68,7 @@ class RateCheckerImplTest {
     @Test
     void testGetUpdateRate_Exception() {
         String customerId = "789";
-        String action = "reset";
+        String action = UPDATE_ACTION;
         boolean increment = true;
 
         HttpHeaders headers = new HttpHeaders();
@@ -77,7 +78,7 @@ class RateCheckerImplTest {
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class)))
                 .thenThrow(new RuntimeException("Test Exception"));
 
-        assertThrows(RuntimeException.class, () -> rateChecker.getUpdateRate(customerId, action, increment));
+        assertThrows(RuntimeException.class, () -> rateChecker.getRate(customerId, action));
         verify(restTemplate, times(1)).exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), eq(Boolean.class));
     }
 }

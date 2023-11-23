@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @EntityListeners(AddressListener.class)
@@ -82,5 +83,18 @@ public class Address implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(line1, address.line1) &&
+                Objects.equals(line2, address.line2) &&
+                Objects.equals(city, address.city) &&
+                Objects.equals(state, address.state) &&
+                Objects.equals(zip, address.zip) &&
+                Objects.equals(country, address.country);
     }
 }
