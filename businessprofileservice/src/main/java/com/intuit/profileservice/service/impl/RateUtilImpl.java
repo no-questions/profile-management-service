@@ -2,9 +2,13 @@ package com.intuit.profileservice.service.impl;
 
 import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.service.RateUtil;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +19,8 @@ import java.util.Arrays;
 @Component
 @RequiredArgsConstructor
 public class RateUtilImpl implements RateUtil {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final RestTemplate restTemplate;
 
@@ -33,9 +39,7 @@ public class RateUtilImpl implements RateUtil {
      * @throws ApplicationException if an application-level exception occurs during the rate check.
      */
     @Override
-    // @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
-    //         @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    // })
+    @HystrixCommand(fallbackMethod = "fetchFallBackForCacheServiceDown")
     public Boolean getRate(String customerId, String action) {
         // Set up HTTP headers
         HttpHeaders headers = getHttpHeaders();
@@ -68,10 +72,9 @@ public class RateUtilImpl implements RateUtil {
      * @throws ApplicationException if an application-level exception occurs during the rate check.
      */
     @Override
-    // @HystrixCommand(fallbackMethod = "fallbackForFailureIdentification", commandProperties = {
-    //         @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    // })
-    public Boolean updateRate(String customerId, String action) {
+    @Async
+    @HystrixCommand(fallbackMethod = "updateFallBackForCacheServiceDown")
+    public void updateRate(String customerId, String action) {
         // Set up HTTP headers
         HttpHeaders headers = getHttpHeaders();
 
@@ -89,8 +92,16 @@ public class RateUtilImpl implements RateUtil {
                 entity,
                 Boolean.class);
 
-        // Return the response body
-        return response.getBody();
+    }
+
+    private void updateFallBackForCacheServiceDown(String customerId, String action) {
+        logger.error("rate not updated for customer {}",customerId);
+//        return Boolean.FALSE;
+    }
+
+    private Boolean fetchFallBackForCacheServiceDown(String customerId, String action) {
+        logger.error("rate not fetched for customer {}",customerId);
+        return Boolean.FALSE;
     }
 
     private HttpHeaders getHttpHeaders(){

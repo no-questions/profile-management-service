@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 @Data
 public class ProfileRequestDto {
@@ -28,11 +29,13 @@ public class ProfileRequestDto {
 
     @Valid
     @JsonProperty("taxIdentifiers")
+    @ToStringExclude
     private TaxIdentifiersDTO taxIdentifiers;
 
     @Email(message = "Please enter a valid email address")
     @NotBlank(message = "Email cannot be blank")
     @JsonProperty("email")
+    @ToStringExclude
     private String email;
 
     @Pattern(regexp = "^(http|https)://.*$", message = "Please enter a valid website URL")
