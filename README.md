@@ -101,7 +101,7 @@ type VARCHAR(255) NOT NULL,
 CONSTRAINT taxidentifiers_pkey PRIMARY KEY (id ASC)
 );
 
-#### post this insert below data in errorcodes table
+#### post this insert below data in errorcodes table (if not already inserted by spring boot using init.sql)
 
 -- Query 1
 INSERT INTO public.errorcodes (isfailure, isretryeligible, errorcode, errormessage) VALUES (false, false, '00', '

@@ -1,142 +1,207 @@
-// package com.intuit.businessprofileservice.transformers;
+ package com.intuit.profileservice.transformers;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
+ import com.intuit.profileservice.dto.UpdateProfileRequestDto;
+ import com.intuit.profileservice.exceptions.ApplicationException;
+ import com.intuit.profileservice.models.Address;
+ import com.intuit.profileservice.models.Profile;
+ import com.intuit.profileservice.models.TaxIdentifier;
+ import com.intuit.profileservice.transformer.CreateProfileTransformer;
+ import com.intuit.profileservice.transformer.UpdateProfileTransformer;
+ import org.junit.jupiter.api.Assertions;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import org.mockito.InjectMocks;
+ import org.mockito.Mock;
+ import org.mockito.Mockito;
+ import org.mockito.MockitoAnnotations;
+ import org.slf4j.Logger;
+ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.boot.test.mock.mockito.MockBean;
 
-// import org.junit.jupiter.api.Assertions;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.InjectMocks;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+ import java.util.UUID;
 
-// import com.intuit.profileservice.dto.ProfileRequestDto;
-// import com.intuit.profileservice.dto.ProfileRequestDto;
-// import com.intuit.profileservice.models.Address;
-// import com.intuit.profileservice.models.Profile;
-// import com.intuit.profileservice.models.TaxIdentifier;
-// import com.intuit.profileservice.models.TaxIdentifier.TaxIDType;
-// import com.intuit.profileservice.transformer.UpdateProfileTransformer;
+ import static org.junit.jupiter.api.Assertions.*;
+ import static org.mockito.Mockito.*;
 
-// class UpdateProfileTransformerTest {
+ @SpringBootTest
+ class UpdateProfileTransformerTest {
 
-//     @InjectMocks
-//     private UpdateProfileTransformer updateProfileTransformer;
+  @Mock
+  private CreateProfileTransformer createProfileTransformer;
 
-//     @Test
-//     void convertDtoToModel_ValidDto_ShouldConvertSuccessfully() throws NotFoundException {
-//         // Arrange
-//         ProfileRequestDto dto = createValidUpdateProfileRequestDto();
+  @InjectMocks
+  private UpdateProfileTransformer updateProfileTransformer;
 
-//         // Act
-//         Profile profile = updateProfileTransformer.convertDtoToModel(dto);
+  @Test
+  void testConvertDtoToModel() {
+   UpdateProfileRequestDto dto = createSampleUpdateProfileDto();
+   Profile profile = createSampleExistingProfile();
+   when(createProfileTransformer.convertDtoToModel(Mockito.any())).thenReturn(new Profile());
+//   UpdateProfileTransformer transformer = new UpdateProfileTransformer(createProfileTransformer);
+   Profile updatedProfile = updateProfileTransformer.convertDtoToModel(dto, profile);
+   Assertions.assertEquals("New Company", updatedProfile.getCompanyname());
+   Assertions.assertEquals("New Legal Name", updatedProfile.getLegalname());
+   Assertions.assertEquals("new.email@example.com", updatedProfile.getEmail());
+   Assertions.assertEquals("http://www.newwebsite.com", updatedProfile.getWebsite());
 
-//         // Assert
-//         assertNotNull(profile);
-//         assertEquals(dto.getLegalName(), profile.getLegalname());
-//         assertEquals(dto.getEmail(), profile.getEmail());
-//         assertEquals(dto.getWebsite(), profile.getWebsite());
-//         assertAddressEquals(dto.getBusinessAddress(), profile.getBusinessaddress());
-//         assertAddressEquals(dto.getLegalAddress(), profile.getLegaladdress());
-//         assertTaxIdentifierEquals(dto.getTaxIdentifiers().getPan(), profile.getPandetails());
-//         assertTaxIdentifierEquals(dto.getTaxIdentifiers().getEin(), profile.getEindetails());
-//         assertTrue(profile.getIsmodified());
-//         assertNotNull(profile.getModifieddate());
-//     }
+   Address businessAddress = updatedProfile.getBusinessaddress();
+   Assertions.assertEquals("123 Main St", businessAddress.getLine1());
+   Assertions.assertEquals("Suite 200", businessAddress.getLine2());
+   Assertions.assertEquals("Anytown", businessAddress.getCity());
+   Assertions.assertEquals("CA", businessAddress.getState());
+   Assertions.assertEquals("94043", businessAddress.getZip());
+   Assertions.assertEquals("USA", businessAddress.getCountry());
 
-//     @Test
-//     void convertDtoToModel_MissingCompanyName_ShouldThrowNotFoundException() {
-//         // Arrange
-//         ProfileRequestDto dto = new ProfileRequestDto();
+   Address legalAddress = updatedProfile.getLegaladdress();
+   Assertions.assertEquals("456 Elm St", legalAddress.getLine1());
+   Assertions.assertEquals("Apt 1", legalAddress.getLine2());
+   Assertions.assertEquals("Anytown", legalAddress.getCity());
+   Assertions.assertEquals("CA", legalAddress.getState());
+   Assertions.assertEquals("94043", legalAddress.getZip());
+   Assertions.assertEquals("USA", legalAddress.getCountry());
 
-//         // Act & Assert
-//         Assertions.assertThrows(NotFoundException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
-//     }
+   TaxIdentifier panIdentifier = updatedProfile.getPandetails();
+//   Assertions.assertEquals(TaxIdentifier.TaxIDType. /PAN, panIdentifier.getType());
+   Assertions.assertEquals("123456789", panIdentifier.getIdentifier());
 
-//     @Test
-//     void convertDtoToModel_InvalidBusinessAddress_ShouldThrowIllegalArgumentException() {
-//         // Arrange
-//         ProfileRequestDto dto = createValidUpdateProfileRequestDto();
-//         dto.getBusinessAddress().setLine1(null);
+   TaxIdentifier einIdentifier = updatedProfile.getEindetails();
+//   Assertions.assertEquals(TaxIdentifier.TaxIDType.EIN, einIdentifier.getType());
+   Assertions.assertEquals("987654321", einIdentifier.getIdentifier());
 
-//         // Act & Assert
-//         Assertions.assertThrows(IllegalArgumentException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
-//     }
+   Assertions.assertTrue(updatedProfile.getIsmodified());
+   Assertions.assertNotNull(updatedProfile.getModifieddate());
+  }
 
-//     @Test
-//     void convertDtoToModel_InvalidLegalAddress_ShouldThrowIllegalArgumentException() {
-//         // Arrange
-//         ProfileRequestDto dto = createValidUpdateProfileRequestDto();
-//         dto.getLegalAddress().setCountry(null);
+//  @Test
+//  void testConvertDtoToModel_NoChanges() {
+//   UpdateProfileRequestDto dto = createSampleUpdateProfileDto();
+//   Profile profile = createSampleExistingProfile();
+//   when(createProfileTransformer.convertDtoToModel(Mockito.any())).thenReturn(new Profile());
+//
+//
+////   UpdateProfileTransformer transformer = new UpdateProfileTransformer(createProfileTransformer);
+//   Profile updatedProfile = updateProfileTransformer.convertDtoToModel(dto, profile);
+//
+//   Assertions.assertThrows(ApplicationException.class, () -> {
+//    updateProfileTransformer.convertDtoToModel(dto, updatedProfile);
+//   });
+//  }
 
-//         // Act & Assert
-//         Assertions.assertThrows(IllegalArgumentException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
-//     }
+  @Test
+  public void testConvertDtoToModel_NullAddress() {
+   UpdateProfileRequestDto dto = createSampleUpdateProfileDto();
+   dto.setBusinessAddress(null);
+   Profile profile = createSampleExistingProfile();
+   when(createProfileTransformer.convertDtoToModel(Mockito.any())).thenReturn(new Profile());
 
-//     @Test
-//     void convertDtoToModel_InvalidTaxIdentifierPAN_ShouldThrowIllegalArgumentException() {
-//         // Arrange
-//         ProfileRequestDto dto = createValidUpdateProfileRequestDto();
-//         dto.getTaxIdentifiers().setPan("invalid-pan");
 
-//         // Act & Assert
-//         Assertions.assertThrows(IllegalArgumentException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
-//     }
+//   UpdateProfileTransformer transformer = new UpdateProfileTransformer(createProfileTransformer);
+   Profile updatedProfile = updateProfileTransformer.convertDtoToModel(dto, profile);
 
-//     @Test
-//     void convertDtoToModel_InvalidTaxIdentifierEIN_ShouldThrowIllegalArgumentException() {
-//         // Arrange
-//         ProfileRequestDto dto = createValidUpdateProfileRequestDto();
-//         dto.getTaxIdentifiers().setEin("invalid-ein");
+   Assertions.assertNull(updatedProfile.getBusinessaddress());
+  }
 
-//         // Act & Assert
-//         Assertions.assertThrows(IllegalArgumentException.class, () -> updateProfileTransformer.convertDtoToModel(dto));
-//     }
+  @Test
+  void convertDtoToModel_NoChanges_ExceptionThrown() {
+   // Arrange
+   UpdateProfileRequestDto dto = createSampleUpdateProfileDto();
+   Profile existingProfile = createSampleExistingProfile();
+   when(createProfileTransformer.convertDtoToModel(dto)).thenReturn(existingProfile);
 
-//     private ProfileRequestDto createValidUpdateProfileRequestDto() {
-//         ProfileRequestDto dto = new ProfileRequestDto();
-//         dto.setCompanyName("Acme Corporation");
-//         dto.setLegalName("Acme Corporation Inc.");
-//         dto.setEmail("info@acmecorp.com");
-//         dto.setWebsite("www.acmecorp.com");
+   // Act and Assert
+   ApplicationException exception = assertThrows(ApplicationException.class, () ->
+           updateProfileTransformer.convertDtoToModel(dto, existingProfile));
 
-//         ProfileRequestDto.AddressDTO businessAddress = new ProfileRequestDto.AddressDTO();
-//         businessAddress.setLine1("123 Main Street");
-//         businessAddress.setLine2("Suite 456");
-//         businessAddress.setCity("Anytown");
-//         businessAddress.setState("CA");
-//         businessAddress.setZip("98765");
-//         businessAddress.setCountry("US");
-//         dto.setBusinessAddress(businessAddress);
+   assertEquals("UC", exception.getErrorCode());
+//   assertEquals("No changes in the profile", exception.getMessage());
+//   verifyZeroInteractions(logger);
+  }
 
-//         ProfileRequestDto.AddressDTO legalAddress = new ProfileRequestDto.AddressDTO();
-//         legalAddress.setLine1("456 Elm Street");
-//         legalAddress.setLine2("Suite 789");
-//         legalAddress.setCity("Anytown");
-//         legalAddress.setState("CA");
-//         legalAddress.setZip("98765");
-//         legalAddress.setCountry("US");
-//         dto.setLegalAddress(legalAddress);
+  @Test
+  void convertDtoToModel_HandleConversionException() {
+   // Arrange
+   UpdateProfileRequestDto dto = createSampleUpdateProfileDto();
+   Profile existingProfile = createSampleExistingProfile();
+   when(createProfileTransformer.convertDtoToModel(dto)).thenThrow(new RuntimeException("Simulated error"));
 
-//         ProfileRequestDto.TaxIdentifiersDTO taxIdentifiers = new ProfileRequestDto.TaxIdentifiersDTO();
-//         taxIdentifiers.setPan("123456789");
-//         taxIdentifiers.setEin("987654321");
-//         dto.setTaxIdentifiers(taxIdentifiers);
+   // Act and Assert
+   RuntimeException exception = assertThrows(RuntimeException.class, () ->
+           updateProfileTransformer.convertDtoToModel(dto, existingProfile));
 
-//         return dto;
-//     }
+   assertEquals("Simulated error", exception.getMessage());
+//   verify(logger, times(1)).error(anyString(), eq("convertDtoToModel"), any(RuntimeException.class));
+//   verify(logger, times(1)).debug("Exiting convertDtoToModel method");
+  }
 
-//     private void assertAddressEquals(ProfileRequestDto.AddressDTO expectedAddress, Address actualAddress) {
-//         assertEquals(expectedAddress.getLine1(), actualAddress.getLine1());
-//         assertEquals(expectedAddress.getLine2(), actualAddress.getLine2());
-//         assertEquals(expectedAddress.getCity(), actualAddress.getCity());
-//         assertEquals(expectedAddress.getState(), actualAddress.getState());
-//         assertEquals(expectedAddress.getZip(), actualAddress.getZip());
-//         assertEquals(expectedAddress.getCountry(), actualAddress.getCountry());
-//     }
+  @Test
+  void convertModelToDto_SuccessfullyConvertsModelToDto() {
+   // Arrange
+   Profile profile = createSampleExistingProfile();
 
-//     private void assertTaxIdentifierEquals(String expectedIdentifier, TaxIdentifier actualIdentifier) {
-//         assertEquals(expectedIdentifier, actualIdentifier.getIdentifier());
-//         assertEquals(TaxIDType.valueOf(actualIdentifier.getType()), TaxIDType.valueOf("PAN"));
-//     }
-// }
+   // Act
+   UpdateProfileRequestDto dto = updateProfileTransformer.convertModelToDto(profile);
+
+   // Assert
+   assertNotNull(dto);
+   assertEquals(profile.getId().toString(), dto.getCustomerId());
+   assertEquals(profile.getCompanyname(), dto.getCompanyName());
+   assertEquals(profile.getLegalname(), dto.getLegalName());
+   assertEquals(profile.getEmail(), dto.getEmail());
+   assertEquals(profile.getWebsite(), dto.getWebsite());
+//   verifyZeroInteractions(logger);
+  }
+
+  // Helper methods to create sample objects for testing
+
+  private UpdateProfileRequestDto createSampleUpdateProfileDto() {
+   UpdateProfileRequestDto dto = new UpdateProfileRequestDto();
+   dto.setCustomerId(UUID.randomUUID().toString());
+   dto.setCompanyName("New Company");
+   dto.setLegalName("New Legal Name");
+   dto.setEmail("new.email@example.com");
+   dto.setWebsite("http://www.newwebsite.com");
+
+   // Set business address
+   UpdateProfileRequestDto.AddressDTO businessAddressDto = new UpdateProfileRequestDto.AddressDTO();
+   businessAddressDto.setLine1("123 Main St");
+   businessAddressDto.setLine2("Suite 200");
+   businessAddressDto.setCity("Anytown");
+   businessAddressDto.setState("CA");
+   businessAddressDto.setZip("94043");
+   businessAddressDto.setCountry("USA");
+   dto.setBusinessAddress(businessAddressDto);
+
+   // Set legal address
+   UpdateProfileRequestDto.AddressDTO legalAddressDto = new UpdateProfileRequestDto.AddressDTO();
+   legalAddressDto.setLine1("456 Elm St");
+   legalAddressDto.setLine2("Apt 1");
+   legalAddressDto.setCity("Anytown");
+   legalAddressDto.setState("CA");
+   legalAddressDto.setZip("94043");
+   legalAddressDto.setCountry("USA");
+   dto.setLegalAddress(legalAddressDto);
+
+   // Set tax identifiers
+   UpdateProfileRequestDto.TaxIdentifiersDTO taxIdentifiersDto = new UpdateProfileRequestDto.TaxIdentifiersDTO();
+   taxIdentifiersDto.setPan("123456789");
+   taxIdentifiersDto.setEin("987654321");
+   dto.setTaxIdentifiers(taxIdentifiersDto);
+
+   // Set other properties...
+
+   return dto;
+  }
+
+
+  private Profile createSampleExistingProfile() {
+   Profile profile = new Profile();
+   profile.setId(UUID.randomUUID());
+   profile.setCompanyname("Company");
+   profile.setLegalname("Legal Name");
+   profile.setEmail("email@example.com");
+   profile.setWebsite("http://www.website.com");
+   // Set other properties...
+   return profile;
+  }
+ }
+

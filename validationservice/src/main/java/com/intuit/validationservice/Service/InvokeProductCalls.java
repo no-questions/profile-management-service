@@ -63,7 +63,7 @@ public class InvokeProductCalls {
     public BaseResponse invokeProductC(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));
-        baseResponse.setResCode(mapResCodes.get("A"));
+        baseResponse.setResCode(mapResCodes.get("C"));
         logResponse("invokeProductC", baseResponse);
         return baseResponse;
     }
@@ -72,7 +72,7 @@ public class InvokeProductCalls {
     public BaseResponse invokeProductD(CreateValidateDto req) {
         BaseResponse baseResponse = new BaseResponse();
 //        baseResponse.setResCode(selectErrorCode(100));
-        baseResponse.setResCode(mapResCodes.get("A"));
+        baseResponse.setResCode(mapResCodes.get("D"));
         logResponse("invokeProductD", baseResponse);
         return baseResponse;
     }
