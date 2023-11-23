@@ -2,6 +2,7 @@ package com.intuit.profileservice.transformer;
 
 import com.intuit.profileservice.dto.ProfileRequestDto;
 import com.intuit.profileservice.dto.UpdateProfileRequestDto;
+import com.intuit.profileservice.exceptions.ApplicationException;
 import com.intuit.profileservice.exceptions.BadRequestException;
 import com.intuit.profileservice.models.Address;
 import com.intuit.profileservice.models.Profile;
@@ -13,12 +14,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UpdateProfileTransformer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final CreateProfileTransformer createProfileTransformer;
+
 
 //    private final ProfileRepository ProfileRepository;
 
@@ -96,6 +100,12 @@ public class UpdateProfileTransformer {
 //            Profile profile = optProfiles.get();
 
             // Set simple properties
+            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
+            newProfile.setId(UUID.fromString(dto.getCustomerId()));
+            newProfile.setIsmodified(profile.getIsmodified());
+            newProfile.setModifieddate(profile.getModifieddate());
+            if(newProfile.equals(profile))
+                throw new ApplicationException("UC","No changes in the profile");
             profile.setCompanyname(dto.getCompanyName());
             profile.setLegalname(dto.getLegalName());
             profile.setEmail(dto.getEmail());
@@ -116,8 +126,6 @@ public class UpdateProfileTransformer {
                 profile.setPandetails(convertPanDtoToModel(dto.getTaxIdentifiers()));
                 profile.setEindetails(convertEinDtoToModel(dto.getTaxIdentifiers()));
             }
-            profile.setIsmodified(false);
-
             logger.debug("Profile successfully converted from DTO to Model");
             profile.setIsmodified(true);
             profile.setModifieddate(new Date());

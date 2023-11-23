@@ -34,7 +34,6 @@ public class UpdateProfileServiceImpl implements UpdateProfileService {
         // Retrieve the profile based on customer ID and legal name
         Optional<Profile> optProfiles = profileService.findByCustomeridAndLegalName(
                 UUID.fromString(request.getCustomerId()), request.getLegalName());
-
         // If no profile is found, throw an application-level exception
         if (optProfiles.isEmpty()) {
             throw new ApplicationException(RESCODE_LCC, RESCODE_LCC_DEFAULT_MSG);
