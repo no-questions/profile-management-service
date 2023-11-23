@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -47,5 +48,20 @@ public class Profile implements Serializable {
     private Boolean ismodified;
     private Date modifieddate;
 
-    // Getters and setters omitted for brevity
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile profile = (Profile) o;
+        return Objects.equals(id, profile.id) &&
+                Objects.equals(companyname, profile.companyname) &&
+                Objects.equals(legalname, profile.legalname) &&
+                Objects.equals(email, profile.email) &&
+                Objects.equals(website, profile.website) &&
+                Objects.equals(pandetails, profile.pandetails) &&
+                Objects.equals(eindetails, profile.eindetails) &&
+                Objects.equals(businessaddress, profile.businessaddress) &&
+                Objects.equals(legaladdress, profile.legaladdress);
+    }
+
 }

@@ -101,7 +101,7 @@ public class RateUtilImpl implements RateUtil {
 
     private Boolean fetchFallBackForCacheServiceDown(String customerId, String action) {
         logger.error("rate not fetched for customer {}",customerId);
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     private HttpHeaders getHttpHeaders(){

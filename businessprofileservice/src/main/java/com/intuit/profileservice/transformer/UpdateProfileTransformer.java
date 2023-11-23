@@ -102,8 +102,12 @@ public class UpdateProfileTransformer {
             // Set simple properties
             Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
             newProfile.setId(UUID.fromString(dto.getCustomerId()));
-            newProfile.setIsmodified(profile.getIsmodified());
-            newProfile.setModifieddate(profile.getModifieddate());
+//            newProfile.setIsmodified(profile.getIsmodified());
+//            newProfile.setModifieddate(profile.getModifieddate());
+//            newProfile.getBusinessaddress().setId(newProfile.getBusinessaddress().getId());
+//            newProfile.getPandetails().setId(newProfile.getPandetails().getId());
+//            newProfile.getLegaladdress().setId(newProfile.getLegaladdress().getId());
+//            newProfile.getEindetails().setId(newProfile.getEindetails().getId());
             if(newProfile.equals(profile))
                 throw new ApplicationException("UC","No changes in the profile");
             profile.setCompanyname(dto.getCompanyName());

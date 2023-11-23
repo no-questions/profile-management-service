@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "taxidentifiers")
@@ -30,6 +31,15 @@ public class TaxIdentifier implements Serializable {
     public enum TaxIDType {
         PAN,
         EIN;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaxIdentifier that = (TaxIdentifier) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(identifier, that.identifier);
     }
     // Getters and setters omitted for brevity
 }

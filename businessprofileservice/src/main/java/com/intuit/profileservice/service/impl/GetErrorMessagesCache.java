@@ -46,7 +46,6 @@ public class GetErrorMessagesCache implements GetErrorMessages {
         logMethodEntry("fetchErrorMessage");
 
         try {
-            Thread.sleep(2000);
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             headers.add("Content-Type", "application/json");
