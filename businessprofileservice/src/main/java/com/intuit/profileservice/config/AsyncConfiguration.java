@@ -35,7 +35,7 @@ public class AsyncConfiguration {
      * @return Executor representing a ThreadPoolExecutor for handling asynchronous tasks.
      */
     @Bean
-    public Executor threadPoolTaskExecutor() {
+    public Executor taskExecutor() {
         return new ThreadPoolExecutor(
                 corePoolSize,
                 maximumPoolSize,
