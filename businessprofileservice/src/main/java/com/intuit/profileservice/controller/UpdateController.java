@@ -43,7 +43,7 @@ public class UpdateController {
      * @return ResponseEntity containing the response for the profile update request.
      */
     @CrossOrigin
-    @PostMapping(UPDATE_PROFILE_ENDPOINT)
+    @PutMapping(UPDATE_PROFILE_ENDPOINT)
     public ResponseEntity<UpdateProfileResponseDto> updateProfile(@Valid @RequestBody UpdateProfileRequestDto requestDto) {
         logger.info("/update/profile inside updateProfile entry {}", requestDto);
 

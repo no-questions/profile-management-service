@@ -26,11 +26,6 @@ public class UpdateProfileTransformer {
         logger.debug("Entering convertDtoToModel method");
 
         try {
-            Profile newProfile = createProfileTransformer.convertDtoToModel(dto);
-            newProfile.setId(UUID.fromString(dto.getCustomerId()));
-            if(newProfile.equals(profile))
-                throw new ApplicationException("UC","No changes in the profile");
-
             profile.setCompanyname(dto.getCompanyName());
             profile.setLegalname(dto.getLegalName());
             profile.setEmail(dto.getEmail());
